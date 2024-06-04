@@ -1,7 +1,39 @@
-import React from "react";
-import { SafeAreaView, View, ScrollView, Image, Text, } from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+
 import {Entrada, divider, explanation, button, NativeScreen } from "../styles/styles";
+
+
 export default (props) => {
+
+  const [CPF, setCPF] = useState("");
+  const [isCPFFocused, setCPFFocused] = useState(false);
+
+  const [name, setName] = useState("");
+  const [isNameFocused, setNameFocused] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [isEmailFocused, setEmailFocused] = useState(false);
+
+  const [phone, setPhone] = useState("");
+  const [isPhoneFocused, setPhoneFocused] = useState(false);
+
+  const [CEP, setCEP] = useState("");
+  const [isCEPFocused, setCEPFocused] = useState(false);
+
+  const [city, setCity] = useState("");
+  const [isCityFocused, setCityFocused] = useState(false);
+
+  const [state, setState] = useState("");
+  const [isStateFocused, setStateFocused] = useState(false);
+
+  const [password, setPassword] = useState("");
+  const [isPasswordFocused, setPasswordFocused] = useState(false);  
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isConfirmPasswordFocused, setConfirmPasswordFocused] = useState(false);  
+
+
     return (
         <SafeAreaView 
 			style = {NativeScreen.SafeAreaView}>
@@ -12,53 +44,131 @@ export default (props) => {
         <Text></Text>
         <Text></Text>
         <Text></Text>
+        <Text style={explanation.bigExplanation}>
+          {"CRIANDO SUA CONTA!"}
+        </Text>
         <Text></Text>
         <Text></Text>
 
+        <View style={Entrada.inputBox}>
+          <TextInput
+            style={Entrada.inputText}
+            placeholder={isCPFFocused ? '' : 'CPF'}
+            value={CPF}
+            onFocus={() => setCPFFocused(true)}
+            onBlur={() => setCPFFocused(false)}
+            onChangeText={setCPF}
+            autoCapitalize="none"
+            keyboardType = {"number-pad"}
+          />
+        </View>
+
 				<View style = {Entrada.inputBox}>
-					<Text style = {Entrada.inputText}>
-						CPF
-					</Text>
+					<TextInput 
+          style = {Entrada.inputText}
+          placeholder={isNameFocused ? '' : 'Nome completo'}
+          value={name}
+          onFocus={() => setNameFocused(true)}
+          onBlur={() => setNameFocused(false)}
+          onChangeText={setName}
+          autoCapitalize="none">	
+					</TextInput>
 				</View>
+
+
 				<View style = {Entrada.inputBox}>
-					<Text style = {Entrada.inputText}>
-						Nome Completo
-					</Text>
+					<TextInput 
+          style = {Entrada.inputText}
+          placeholder={isPhoneFocused ? '' : '(00) 1234-4321'}
+          value={phone}
+          onFocus={() => setPhoneFocused(true)}
+          onBlur={() => setPhoneFocused(false)}
+          onChangeText={setPhone}
+          autoCapitalize="none"
+          keyboardType = {"number-pad"}>	
+					</TextInput>
 				</View>
+
+
+
+
 				<View style = {Entrada.inputBox}>
-					<Text style = {Entrada.inputText}>
-						Telefone
-					</Text>
+					<TextInput 
+          style = {Entrada.inputText}
+          placeholder={isEmailFocused ? '' : 'exemplo@email.com'}
+          value={email}
+          onFocus={() => setEmailFocused(true)}
+          onBlur={() => setEmailFocused(false)}
+          onChangeText={setEmail}
+          autoCapitalize="none">	
+					</TextInput>
 				</View>
+        
+        
 				<View style = {Entrada.inputBox}>
-					<Text style = {Entrada.inputText}>
-						Email
-					</Text>
+					<TextInput 
+          style = {Entrada.inputText}
+          placeholder={isCEPFocused ? '' : 'CEP'}
+          value={CEP}
+          onFocus={() => setCEPFocused(true)}
+          onBlur={() => setCEPFocused(false)}
+          onChangeText={setCEP}
+          autoCapitalize="none"
+          keyboardType = {"number-pad"}>	
+					</TextInput>
 				</View>
+
+
+
 				<View style = {Entrada.inputBox}>
-					<Text style = {Entrada.inputText}>
-						CEP
-					</Text>
+					<TextInput 
+          style = {Entrada.inputText}
+          placeholder={isCityFocused ? '' : 'Cidade'}
+          value={city}
+          onFocus={() => setCityFocused(true)}
+          onBlur={() => setCityFocused(false)}
+          onChangeText={setCity}
+          autoCapitalize="none">	
+					</TextInput>
 				</View>
+
 				<View style = {Entrada.inputBox}>
-					<Text style = {Entrada.inputText}>
-						Cidade
-					</Text>
+					<TextInput 
+          style = {Entrada.inputText}
+          placeholder={isStateFocused ? '' : 'Estado'}
+          value={state}
+          onFocus={() => setStateFocused(true)}
+          onBlur={() => setStateFocused(false)}
+          onChangeText={setState}
+          autoCapitalize="none">	
+					</TextInput>
 				</View>
-				<View style = {Entrada.inputBox}>
-					<Text style = {Entrada.inputText}>
-						Estado
-					</Text>
+				
+        <View style = {Entrada.inputBox}>
+					<TextInput 
+          style = {Entrada.inputText}
+          placeholder={isPasswordFocused ? '' : 'senha'}
+          value={password}
+          onFocus={() => setPasswordFocused(true)}
+          onBlur={() => setPasswordFocused(false)}
+          onChangeText={setPassword}
+          autoCapitalize="none"
+          secureTextEntry>	
+					</TextInput>
 				</View>
+
+
 				<View style = {Entrada.inputBox}>
-					<Text style = {Entrada.inputText}>
-						Senha
-					</Text>
-				</View>
-				<View style = {Entrada.inputBox}>
-					<Text style = {Entrada.inputText}>
-						Confirme a senha
-					</Text>
+					<TextInput 
+          style = {Entrada.inputText}
+          placeholder={isConfirmPasswordFocused ? '' : 'confirme a senha'}
+          value={confirmPassword}
+          onFocus={() => setConfirmPasswordFocused(true)}
+          onBlur={() => setConfirmPasswordFocused(false)}
+          onChangeText={setConfirmPassword}
+          autoCapitalize="none"
+          secureTextEntry>	
+					</TextInput>
 				</View>
 
 
