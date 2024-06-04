@@ -1,3 +1,4 @@
+
 //aqui vão todos os estilos das coisas usando styleSheet(ele meio que fica pré-definido como no css)
 
 import React from 'react';
@@ -30,14 +31,18 @@ export const explanation = StyleSheet.create({//texto explicando sobre o login
             color: "#171B3B",
             fontSize: 14,
             marginBottom: 27,
-            marginHorizontal: 107,
+            width: '100%',
+            textAlign: 'center',
+            paddingHorizontal: 10,
         },
         bigExplanation:
         {
             color: "#171B3B",
             fontSize: 18,
             marginBottom: "auto",
-            marginHorizontal: "auto",
+            width: '100%',
+            textAlign: 'center',
+            paddingHorizontal: 10,
         },
 
 });
@@ -116,4 +121,4 @@ export const divider = StyleSheet.create({
         color:"#363851",
         fontSize:14,
     }
-})
+});
