@@ -1,10 +1,15 @@
+
 import React, { useState } from "react";
+import {TextInputMask} from 'react-native-masked-text';
+/*import RNPickerSelect from 'react-native-picker-select;' PRECISA ARRUMAR ISSO AQ*/
 import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 
 import {Entrada, divider, explanation, button, NativeScreen } from "../styles/styles";
+import { cadastroForm } from "../functions/functions";
+import { filtraUf, states } from "../functions/functions";
 
 
-export default (props) => {
+const Cadastro =({navigation, props}) => {
 
   const [CPF, setCPF] = useState("");
   const [isCPFFocused, setCPFFocused] = useState(false);
@@ -51,7 +56,7 @@ export default (props) => {
         <Text></Text>
 
         <View style={Entrada.inputBox}>
-          <TextInput
+          <TextInputMask
             style={Entrada.inputText}
             placeholder={isCPFFocused ? '' : 'CPF'}
             value={CPF}
@@ -60,6 +65,7 @@ export default (props) => {
             onChangeText={setCPF}
             autoCapitalize="none"
             keyboardType = {"number-pad"}
+            type={'cpf'}
           />
         </View>
 
@@ -77,7 +83,7 @@ export default (props) => {
 
 
 				<View style = {Entrada.inputBox}>
-					<TextInput 
+					<TextInputMask 
           style = {Entrada.inputText}
           placeholder={isPhoneFocused ? '' : '(00) 1234-4321'}
           value={phone}
@@ -85,8 +91,10 @@ export default (props) => {
           onBlur={() => setPhoneFocused(false)}
           onChangeText={setPhone}
           autoCapitalize="none"
+          type={'cel-phone'}
+          options={{maskType: 'BRL', withDDD: true, dddMask: '(99)'}}
           keyboardType = {"number-pad"}>	
-					</TextInput>
+					</TextInputMask>
 				</View>
 
 
@@ -106,7 +114,7 @@ export default (props) => {
         
         
 				<View style = {Entrada.inputBox}>
-					<TextInput 
+					<TextInputMask 
           style = {Entrada.inputText}
           placeholder={isCEPFocused ? '' : 'CEP'}
           value={CEP}
@@ -114,8 +122,9 @@ export default (props) => {
           onBlur={() => setCEPFocused(false)}
           onChangeText={setCEP}
           autoCapitalize="none"
+          type={'zip-code'}
           keyboardType = {"number-pad"}>	
-					</TextInput>
+					</TextInputMask>
 				</View>
 
 
@@ -143,6 +152,7 @@ export default (props) => {
           autoCapitalize="none">	
 					</TextInput>
 				</View>
+        
 				
         <View style = {Entrada.inputBox}>
 					<TextInput 
@@ -173,12 +183,11 @@ export default (props) => {
 
 
 
-                
-				<View style={button.darkButton}>
-					<Text style = {button.text}>
-						CRIAR CONTA
-					</Text>
-				</View>
+        <TouchableOpacity onPress={() =>cadastroForm(navigation, CPF, name, phone, email, CEP, city, state, password, confirmPassword)} style={button.darkButton}>   
+          <Text style={button.text}>
+            {"ENTRAR"}
+          </Text>
+        </TouchableOpacity>
               
 				<View 
 					style = {{
@@ -191,3 +200,5 @@ export default (props) => {
 		</SafeAreaView>
     )
 }
+export default Cadastro;
+
