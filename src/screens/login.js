@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 
-import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles"; // Ajuste nos imports
-import { cadastroRedirect, verifyLogin } from '../functions/functions'; // Importação da função verifyLogin
+import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles"; 
+import { cadastroRedirect, feedRedirect } from '../functions/functions'; 
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -37,7 +37,7 @@ const Login = ({ navigation }) => {
         <View style={Entrada.inputBox}>
           <TextInput
             style={Entrada.inputText}
-            placeholder={isEmailFocused ? '' : 'email@example.com'}
+            placeholder={isEmailFocused ? '' : 'exemplo@email.com'}
             value={email}
             onFocus={() => setEmailFocused(true)}
             onBlur={() => setEmailFocused(false)}
@@ -61,18 +61,27 @@ const Login = ({ navigation }) => {
         </View>
 
         {/* BOTÃO DE ENTRAR */}
-        <TouchableOpacity onPress={() => FeedRedirect} style={button.darkButton}>
+        <TouchableOpacity onPress={() => feedRedirect(navigation, email, password)} style={button.darkButton}>
           <Text style={button.text}>
             {"ENTRAR"}
           </Text>
         </TouchableOpacity>
         {/* FIM DO BOTÃO DE ENTRAR */}
 
+
+
+
+
         <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 24, marginBottom: 23 }}>
           <View style={{ flex: 1, height: 1, backgroundColor: "#363851" }} />
           <Text style={{ marginHorizontal: 10, color: "#363851" }}>ou</Text>
           <View style={{ flex: 1, height: 1, backgroundColor: "#363851" }} />
         </View>
+
+
+
+
+
 
         {/* botão de não tenho cadastro */}
         <TouchableOpacity onPress={() => cadastroRedirect(navigation)} style={button.clearButton}>
