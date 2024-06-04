@@ -15,7 +15,7 @@ const Login = ({ navigation }) => {
     <SafeAreaView style={NativeScreen.safeAreaView}>
       <ScrollView style={NativeScreen.scrollView}>
         <View style={NativeScreen.View}>
-          {/* Adicione outros componentes aqui se necessário */}
+          
         </View>
               <Text></Text>
               <Text></Text>
@@ -30,7 +30,7 @@ const Login = ({ navigation }) => {
                   {"LOGIN"}
               </Text>
               <Text style={explanation.littleEx}>
-                  {"Entre usando seu CPF e senha!"}
+                  {"Entre usando seu email e senha!"}
               </Text>
 
         {/* input de e-mail */}
