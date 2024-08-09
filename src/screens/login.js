@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
-
+import { View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles"; 
 import { cadastroRedirect, feedRedirect } from '../functions/functions'; 
 
