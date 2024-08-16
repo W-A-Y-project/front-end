@@ -4,6 +4,12 @@
 import React from 'react';
 import { ScrollView, StyleSheet} from 'react-native';
 
+export const Responsive = StyleSheet.create({
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center' 
+})
+
 
 export const Entrada = StyleSheet.create({
   inputBox:
@@ -231,5 +237,6 @@ export const componentPost = StyleSheet.create({
     backgroundColor: "#363851",
     overflow: 'hidden',
   },
+
 
 });

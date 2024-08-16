@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles"; 
+import { Entrada, divider, explanation, button, NativeScreen, Responsive } from "../styles/styles"; 
 import { cadastroRedirect, verifyLogin } from '../functions/functions'; 
 import Post from "../components/Post";
 
@@ -13,9 +13,9 @@ const Login = ({ navigation }) => {
 
 
   return (
-    <SafeAreaView style={NativeScreen.safeAreaView}>
-      <ScrollView style={NativeScreen.scrollView}>
-        <View style={NativeScreen.View}>
+    <SafeAreaView style={[NativeScreen.safeAreaView]}>
+      <ScrollView style={[NativeScreen.scrollView]}>
+        <View style={[NativeScreen.View]}>
           {/* Adicione outros componentes aqui se necessário */}
         </View>
           <Post/>

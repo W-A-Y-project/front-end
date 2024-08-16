@@ -4,10 +4,10 @@ import {TextInputMask} from 'react-native-masked-text';
 /*import RNPickerSelect from 'react-native-picker-select;' PRECISA ARRUMAR ISSO AQ*/
 import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 
-import {Entrada, divider, explanation, button, NativeScreen } from "../styles/styles";
+import {Entrada, divider, explanation, button, NativeScreen, Arrow } from "../styles/styles";
 import { cadastroForm } from "../functions/functions";
 import { filtraUf, states } from "../functions/functions";
-
+import {ArrowComponent, SameLine} from "../components/Arrow";
 
 const Cadastro =({navigation, props}) => {
 
@@ -46,12 +46,9 @@ const Cadastro =({navigation, props}) => {
 				style = {NativeScreen.ScrollView}>
         
         <Text></Text>
-        <Text></Text>
-        <Text></Text>
-        <Text></Text>
-        <Text style={explanation.bigExplanation}>
-          {"CRIANDO SUA CONTA!"}
-        </Text>
+        <View>
+          <SameLine/>
+        </View>
         <Text></Text>
         <Text></Text>
 
