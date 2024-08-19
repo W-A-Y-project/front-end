@@ -1,8 +1,8 @@
-// backend/frontend/src/screens/Login.js
-import React, { useState } from 'react';
-import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { Entrada, explanation, button, NativeScreen } from '../styles/styles';
-import { feedRedirect } from '../functions/functions';
+import React, { useState } from "react";
+import { View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles"; 
+import { cadastroRedirect, feedRedirect } from '../functions/functions'; 
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');

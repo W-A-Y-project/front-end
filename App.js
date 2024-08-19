@@ -5,7 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './src/screens/login';
 import Cadastro from './src/screens/Cadastro';
 import Feed from './src/screens/Feed';
-
+import { AppRegistry, StatusBar } from 'react-native';
+import {WAYP as appName} from './app.json';
 
 const Stack = createStackNavigator();
 
@@ -21,3 +22,5 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+AppRegistry.registerComponent(appName, () => App);

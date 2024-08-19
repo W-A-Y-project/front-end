@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
-
+import { View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles"; 
 import { cadastroRedirect, verifyLogin } from '../functions/functions'; 
+import Post from "../components/Post";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -17,21 +18,7 @@ const Login = ({ navigation }) => {
         <View style={NativeScreen.View}>
           {/* Adicione outros componentes aqui se necessário */}
         </View>
-              <Text></Text>
-              <Text></Text>
-              <Text></Text>      
-              <Text style={explanation.bigExplanation}>
-                  {"WAY"}
-              </Text>
-              <Text></Text>
-              <Text></Text>
-              <Text></Text>
-              <Text style={explanation.bigExplanation}>
-                  {"LOGIN REALIZADO COM SUCESSO!"}
-              </Text>
-              <Text style={explanation.littleEx}>
-                  {"Esta página ainda será configurada, aguarde!!"}
-              </Text>
+          <Post/>
 
       </ScrollView>
     </SafeAreaView>
