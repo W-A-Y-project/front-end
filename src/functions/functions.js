@@ -1,6 +1,6 @@
-
+import { useEffect } from 'react';
 import {Alert} from 'react-native';
-
+import { explanation } from '../styles/styles';
 export function cadastroRedirect(navigation){
   navigation.navigate('Cadastro');
 }
@@ -17,6 +17,19 @@ export function cadastroForm(navigation, CPF, name, phone, email, CEP, city, sta
   Alert.alert("Seu nome é:" + name);
 }
 
+export function validateForm(){
+  setIsFormValid(
+    CPF &&
+    name &&
+    email &&
+    phone &&
+    CEP &&
+    city &&
+    state &&
+    password &&
+    confirmPassword
+  );
+};
 
 
 

@@ -240,3 +240,18 @@ export const componentPost = StyleSheet.create({
 
 
 });
+
+export const tips = StyleSheet.create({
+  tipsContainer: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#f8f8f8',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  tip: {
+    fontSize: 14,
+    color: '#333',
+  },
+});
