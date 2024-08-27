@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Entrada, divider, explanation, button, NativeScreen, Responsive } from "../styles/styles"; 
 import { cadastroRedirect, verifyLogin } from '../functions/functions'; 
 import Post from "../components/Post";
+import PointComponent from "../components/Point";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,6 @@ const Login = ({ navigation }) => {
     <SafeAreaView style={[NativeScreen.safeAreaView]}>
       <ScrollView style={[NativeScreen.scrollView]}>
         <View style={[NativeScreen.View]}>
-          {/* Adicione outros componentes aqui se necessário */}
         </View>
           <Post/>
 

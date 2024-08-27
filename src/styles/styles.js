@@ -2,7 +2,8 @@
 //aqui vão todos os estilos das coisas usando styleSheet(ele meio que fica pré-definido como no css)
 
 import React from 'react';
-import { ScrollView, StyleSheet} from 'react-native';
+import { ScrollView, StyleSheet, Dimensions} from 'react-native';
+const { width } = Dimensions.get('window');
 
 export const Responsive = StyleSheet.create({
   flex: 1,
@@ -140,11 +141,11 @@ export const componentPost = StyleSheet.create({
     judsonRegular: "Judson-Regular",
   },
 
-  Container: {//este é o espaço onde vão os dados do desaparecido
-    alignItems: 'center',
-    width: '150%', 
+  Container: {//este é o espaço onde vão os dados do desaparecido EM TEXTO
+    alignItems: 'center', 
     padding: 10,
     justifyContent: 'space-evenly',
+    width: width * 1.4,
   },
 
   nameText: {
@@ -157,7 +158,7 @@ export const componentPost = StyleSheet.create({
 
   sexo: {
     fontSize: 18,
-    //textAlign: "left",
+    textAlign: 'center',
     color: "#f8f8ff",
     fontFamily: "Judson-Regular",
     marginBottom: 10,
@@ -165,7 +166,7 @@ export const componentPost = StyleSheet.create({
 
   Age: {
     fontSize: 20,
-    //textAlign: "left",
+    textAlign: 'center',
     color: "#f8f8ff",
     fontFamily: "Judson-Regular",
     marginBottom: 10,
@@ -173,26 +174,23 @@ export const componentPost = StyleSheet.create({
 
   LastView: {
     fontSize: 14,
-    //top: 75,
+    textAlign: 'center',
     width: 160,
-    //height: 35,
     color: "#f8f8ff",
     fontFamily: "Judson-Regular",
     marginBottom: 10,
   },
   
   dateMiss: {
+    textAlign: 'center',
     fontSize: 15,
-    //textAlign: "left",
     color: "#f8f8ff",
     fontFamily: "Judson-Regular",
     marginBottom: 10,
   },
 
   AddressTextStyle: {
-    //textAlign: "left",
-    //left: 255,
-    //top: 160,
+    textAlign: 'center',
     width: 150,
     color: "#f8f8ff",
     fontSize: 14,
@@ -200,13 +198,9 @@ export const componentPost = StyleSheet.create({
     marginBottom: 10,
   },
 
-
-
-
-
   frameChild: {//frame da foto do post
     left: 10,
-    width: 219,
+    width: width * 0.45,
     height: 238,
     top: 7,
     position: "absolute",
@@ -218,26 +212,26 @@ export const componentPost = StyleSheet.create({
     overflow: "hidden",
   },
   
-  postActions: {
+  postActions: {//componente das ações do post
     top: 219,
-    left: 85,
+    left: 65,
     width: 70,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
     position: "absolute",
     backgroundColor: "#2f4f4f",
   },
 
   PostComponent: {//o 'delimitador' do post
     borderRadius: 23,
-    width: 400,
+    width: width * 0.97,
     height: 250,
     overflow: "hidden",
     backgroundColor: "#363851",
     overflow: 'hidden',
+    marginHorizontal: 5,
   },
-
 
 });
 
