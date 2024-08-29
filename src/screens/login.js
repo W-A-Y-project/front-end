@@ -1,3 +1,4 @@
+import api from '../services/api';
 import React, { useState } from "react";
 import { View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,26 +12,23 @@ const Login = ({ navigation }) => {
   const [isPasswordFocused, setPasswordFocused] = useState(false);
 
   const handleLogin = () => {
-    fetch('http://localhost:3000/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
+    api.post('/login', {
+      email,
+      password,
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.token) {
-          Alert.alert('Login realizado com sucesso!');
-          feedRedirect(navigation);  // Supondo que `feedRedirect` é uma função que redireciona para a página Feed
-        } else {
-          Alert.alert('Erro', data.error);
-        }
-      })
-      .catch((error) => {
-        Alert.alert('Erro', 'Não foi possível realizar o login.');
-        console.error(error);
-      });
+    .then((response) => {
+      const data = response.data;
+      if (data.token) {
+        Alert.alert('Login realizado com sucesso!');
+        feedRedirect(navigation);  // Supondo que feedRedirect é uma função que redireciona para a página Feed
+      } else {
+        Alert.alert('Erro', data.error);
+      }
+    })
+    .catch((error) => {
+      Alert.alert('Erro', 'Não foi possível realizar o login.');
+      console.error(error);
+    });
   };
 
   return (
@@ -94,7 +92,7 @@ const Login = ({ navigation }) => {
             width: 311,
           }}
         >
-          {"By clicking continue, you agree to our Terms of Service and Privacy Policy"}
+          {"Ao continuar, você concorda com nossos Termos de Serviço e Política de Privacidade"}
         </Text>
         <View
           style={{
