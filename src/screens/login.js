@@ -1,6 +1,6 @@
 import api from '../services/api';
 import React, { useState } from "react";
-import { View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { View, ScrollView, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles"; 
 import { cadastroRedirect, feedRedirect } from '../functions/functions'; 
@@ -34,51 +34,56 @@ const Login = ({ navigation }) => {
   return (
     <SafeAreaView style={NativeScreen.safeAreaView}>
       <ScrollView style={NativeScreen.scrollView}>
-        <View style={NativeScreen.View}></View>
-        <Text></Text>
-        <Text></Text>
-        <Text></Text>
-        <Text style={explanation.bigExplanation}>{"WAY"}</Text>
-        <Text></Text>
-        <Text></Text>
-        <Text></Text>
-        <Text style={explanation.bigExplanation}>{"LOGIN"}</Text>
-        <Text style={explanation.littleEx}>{"Entre usando seu email e senha!"}</Text>
+          <KeyboardAvoidingView>
+          <View style={NativeScreen.View}></View>
+          <Text></Text>
+          <Text></Text>
+          <Text></Text>
+          <Text style={explanation.bigExplanation}>{"WAY"}</Text>
+          <Text></Text>
+          <Text></Text>
+          <Text></Text>
+          <Text style={explanation.bigExplanation}>{"LOGIN"}</Text>
+          <Text style={explanation.littleEx}>{"Entre usando seu email e senha!"}</Text>
 
-        <View style={Entrada.inputBox}>
-          <TextInput
-            style={Entrada.inputText}
-            placeholder={isEmailFocused ? '' : 'exemplo@email.com'}
-            value={email}
-            onFocus={() => setEmailFocused(true)}
-            onBlur={() => setEmailFocused(false)}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-        </View>
+          <View style={Entrada.inputBox}>
+            <TextInput
+              style={Entrada.inputText}
+              placeholder={isEmailFocused ? '' : 'exemplo@email.com'}
+              value={email}
+              onFocus={() => setEmailFocused(true)}
+              onBlur={() => setEmailFocused(false)}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+          </View>
 
-        <View style={Entrada.inputBox}>
-          <TextInput
-            style={Entrada.inputText}
-            placeholder={isPasswordFocused ? '' : 'senha'}
-            value={password}
-            onFocus={() => setPasswordFocused(true)}
-            onBlur={() => setPasswordFocused(false)}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-        </View>
+          <View style={Entrada.inputBox}>
+            <TextInput
+              style={Entrada.inputText}
+              placeholder={isPasswordFocused ? '' : 'senha'}
+              value={password}
+              onFocus={() => setPasswordFocused(true)}
+              onBlur={() => setPasswordFocused(false)}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+          </View>
+          
+          <TouchableOpacity onPress={handleLogin} style={button.darkButton}>
+            <Text style={button.text}>{"ENTRAR"}</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleLogin} style={button.darkButton}>
-          <Text style={button.text}>{"ENTRAR"}</Text>
-        </TouchableOpacity>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 24, marginBottom: 23 }}>
+            <View style={{ flex: 1, height: 1, backgroundColor: '#363851' }} />
+            <Text style={{ marginHorizontal: 10, color: '#363851' }}>ou</Text>
+            <View style={{ flex: 1, height: 1, backgroundColor: '#363851' }} />
+          </View>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 24, marginBottom: 23 }}>
-          <View style={{ flex: 1, height: 1, backgroundColor: '#363851' }} />
-          <Text style={{ marginHorizontal: 10, color: '#363851' }}>ou</Text>
-          <View style={{ flex: 1, height: 1, backgroundColor: '#363851' }} />
-        </View>
+          <TouchableOpacity onPress={() => navigation.navigate('Cadastro')} style={button.clearButton}>
+            <Text style={button.clearText}>{"não tenho cadastro!"}</Text>
+          </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Cadastro')} style={button.clearButton}>
           <Text style={button.clearText}>{"não tenho cadastro!"}</Text>

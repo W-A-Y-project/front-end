@@ -1,38 +1,39 @@
+import React, { useState, useEffect } from "react";
+import { TextInputMask } from 'react-native-masked-text';
 import api from '../services/api';
 import React, { useState } from "react";
 import { TextInputMask } from 'react-native-masked-text';
 import RNPickerSelect from 'react-native-picker-select';
 import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { Entrada, NativeScreen, button, explanation, tips } from "../styles/styles";
+import { AlertPassword, cadastroForm, isFormValid } from "../functions/functions";
+import { ArrowComponent, SameLine } from "../components/Arrow";
+import { KeyboardAvoidingView } from "react-native";
 
 import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles";
 
 const Cadastro = ({ navigation }) => {
   const [CPF, setCPF] = useState("");
-  const [isCPFFocused, setCPFFocused] = useState(false);
-
   const [name, setName] = useState("");
-  const [isNameFocused, setNameFocused] = useState(false);
-
   const [email, setEmail] = useState("");
-  const [isEmailFocused, setEmailFocused] = useState(false);
-
   const [phone, setPhone] = useState("");
-  const [isPhoneFocused, setPhoneFocused] = useState(false);
-
   const [CEP, setCEP] = useState("");
-  const [isCEPFocused, setCEPFocused] = useState(false);
-
   const [city, setCity] = useState("");
-  const [isCityFocused, setCityFocused] = useState(false);
-
   const [state, setState] = useState("");
-  const [isStateFocused, setStateFocused] = useState(false);
-
   const [password, setPassword] = useState("");
-  const [isPasswordFocused, setPasswordFocused] = useState(false);  
-
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isConfirmPasswordFocused, setConfirmPasswordFocused] = useState(false);  
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const handleFormSubmit = () => {
+    cadastroForm(navigation, CPF, name, phone, email, CEP, city, state, password, confirmPassword);
+  };
+
+  
+  useEffect(() => {
+    validateForm();
+  }, [CPF, name, email, phone, CEP, city, state, password, confirmPassword]);
 
   const handleCadastro = async () => {
     if (password !== confirmPassword) {

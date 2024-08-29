@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native';
 import { explanation } from '../styles/styles';
 
@@ -11,24 +11,25 @@ export const Arrow = StyleSheet.create({
     },
     SecContainer:{
         flexDirection: 'row',
+        alignItems: "center"
     },
 
     rectangle32: {
       position: 'absolute',
-      width: 20,
+      width: 10,
       height: 2,
       left: 31.04,
-      top: 58,
+      top: 38,
       backgroundColor: '#171B3B',
       transform: [{ rotate: '-45deg' }],
     },
 
     rectangle33: {
       position: 'absolute',
-      width: 20,
+      width: 10,
       height: 2,
       left: 31.61,
-      top: 71,
+      top: 45,
       backgroundColor: '#171B3B',
       transform: [{ rotate: '45deg' }],
     },
@@ -50,9 +51,6 @@ export const SameLine = () => {
     return (
         <View>
             <ArrowComponent/>
-            <Text style={explanation.bigExplanation}>
-                {"CRIANDO SUA CONTA!"}
-            </Text>
         </View>
     )
 }
