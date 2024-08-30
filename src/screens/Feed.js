@@ -5,8 +5,9 @@ import { Entrada, divider, explanation, button, NativeScreen, Responsive } from 
 import { cadastroRedirect, verifyLogin } from '../functions/functions'; 
 import Post from "../components/Post";
 import PointComponent from "../components/Point";
+import SearchBarComponent from "../components/searchBar";
 
-const Login = ({ navigation }) => {
+const Feed = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isEmailFocused, setEmailFocused] = useState(false);
@@ -16,13 +17,12 @@ const Login = ({ navigation }) => {
   return (
     <SafeAreaView style={[NativeScreen.safeAreaView]}>
       <ScrollView style={[NativeScreen.scrollView]}>
-        <View style={[NativeScreen.View]}>
-        </View>
+      <SearchBarComponent/>
+        <View style={[NativeScreen.View]}></View>
           <Post/>
-
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default Login;
+export default Feed;

@@ -27,12 +27,11 @@ const Post = () => {
         <EyesComponent></EyesComponent>
         <PointComponent></PointComponent>
       </View>
-
-        <View
+      <View
         style={componentPost.point}>
 
-        </View>
       </View>
+    </View>
   );
 };
 
