@@ -1,4 +1,3 @@
-import api from '../services/api';
 import React, { useState } from "react";
 import { View, ScrollView, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,23 +11,26 @@ const Login = ({ navigation }) => {
   const [isPasswordFocused, setPasswordFocused] = useState(false);
 
   const handleLogin = () => {
-    api.post('/login', {
-      email,
-      password,
+    fetch('http://localhost:3000/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
     })
-    .then((response) => {
-      const data = response.data;
-      if (data.token) {
-        Alert.alert('Login realizado com sucesso!');
-        feedRedirect(navigation);  // Supondo que feedRedirect é uma função que redireciona para a página Feed
-      } else {
-        Alert.alert('Erro', data.error);
-      }
-    })
-    .catch((error) => {
-      Alert.alert('Erro', 'Não foi possível realizar o login.');
-      console.error(error);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.token) {
+          Alert.alert('Login realizado com sucesso!');
+          feedRedirect(navigation);  // Supondo que `feedRedirect` é uma função que redireciona para a página Feed
+        } else {
+          Alert.alert('Erro', data.error);
+        }
+      })
+      .catch((error) => {
+        Alert.alert('Erro', 'Não foi possível realizar o login.');
+        console.error(error);
+      });
   };
 
   return (
@@ -85,27 +87,24 @@ const Login = ({ navigation }) => {
             <Text style={button.clearText}>{"não tenho cadastro!"}</Text>
           </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Cadastro')} style={button.clearButton}>
-          <Text style={button.clearText}>{"não tenho cadastro!"}</Text>
-        </TouchableOpacity>
-
-        <Text
-          style={{
-            fontSize: 12,
-            marginBottom: 202,
-            marginHorizontal: 32,
-            width: 311,
-          }}
-        >
-          {"Ao continuar, você concorda com nossos Termos de Serviço e Política de Privacidade"}
-        </Text>
-        <View
-          style={{
-            backgroundColor: '#000000',
-            borderRadius: 100,
-            marginHorizontal: 120,
-          }}
-        ></View>
+          <Text
+            style={{
+              fontSize: 12,
+              marginBottom: 202,
+              marginHorizontal: 32,
+              width: 311,
+            }}
+          >
+            {"By clicking continue, you agree to our Terms of Service and Privacy Policy"}
+          </Text>
+          <View
+            style={{
+              backgroundColor: '#000000',
+              borderRadius: 100,
+              marginHorizontal: 120,
+            }}
+          ></View>
+        </KeyboardAvoidingView>
       </ScrollView>
     </SafeAreaView>
   );

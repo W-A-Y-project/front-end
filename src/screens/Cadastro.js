@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { TextInputMask } from 'react-native-masked-text';
-import api from '../services/api';
-import React, { useState } from "react";
-import { TextInputMask } from 'react-native-masked-text';
-import RNPickerSelect from 'react-native-picker-select';
 import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Entrada, NativeScreen, button, explanation, tips } from "../styles/styles";
 import { AlertPassword, cadastroForm, isFormValid } from "../functions/functions";
 import { ArrowComponent, SameLine } from "../components/Arrow";
 import { KeyboardAvoidingView } from "react-native";
 
-import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles";
-
 const Cadastro = ({ navigation }) => {
+
   const [CPF, setCPF] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -35,206 +30,140 @@ const Cadastro = ({ navigation }) => {
     validateForm();
   }, [CPF, name, email, phone, CEP, city, state, password, confirmPassword]);
 
-  const handleCadastro = async () => {
-    if (password !== confirmPassword) {
-      Alert.alert('Erro', 'As senhas não coincidem');
-      return;
-    }
-  
-    try {
-      const response = await api.post('/register', {
-        cpf: CPF,
-        fullName: name,
-        email: email,
-        phone: phone,
-        postalCode: CEP,
-        city: city,
-        state: state,
-        password: password,
-      });
 
-      if (response.data) {
-        Alert.alert('Sucesso', 'Cadastro realizado com sucesso');
-        navigation.navigate('Login'); 
-      } else {
-        Alert.alert('Erro', 'Não foi possível realizar o cadastro');
-      }
-    } catch (error) {
-      console.error('Erro ao fazer cadastro:', error.message);
-      Alert.alert('Erro', error.response?.data?.error || 'Não foi possível realizar o cadastro');
-    }
-  };
-  
   return (
-    <SafeAreaView style={NativeScreen.safeAreaView}>
-      <ScrollView style={NativeScreen.scrollView}>
-        <View style={NativeScreen.View}></View>
+    <SafeAreaView style={NativeScreen.SafeAreaView}>
+      <ScrollView style={NativeScreen.ScrollView}>
+        <KeyboardAvoidingView>
+        <View>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <SameLine />
+          </TouchableOpacity>
+          <Text style={explanation.bigExplanation}>
+              {"CRIANDO SUA CONTA!"}
+            </Text>
+            <Text></Text>
+            <Text></Text>
+            
+        </View>
 
-        <Text style={explanation.bigExplanation}>{"Cadastro"}</Text>
-        <Text style={explanation.littleEx}>{"Insira seus dados corretamente!"}</Text>
-        
         <View style={Entrada.inputBox}>
           <TextInputMask
-            type={'cpf'}
+            style={Entrada.inputText}
+            placeholder="CPF"
             value={CPF}
             onChangeText={setCPF}
-            onFocus={() => setCPFFocused(true)}
-            onBlur={() => setCPFFocused(false)}
-            style={Entrada.inputText}
-            placeholder={isCPFFocused ? '' : 'CPF'}
-            keyboardType="numeric"
+            autoCapitalize="none"
+            keyboardType="number-pad"
+            type="cpf"
           />
         </View>
 
         <View style={Entrada.inputBox}>
           <TextInput
             style={Entrada.inputText}
-            placeholder={isNameFocused ? '' : 'Nome completo'}
+            placeholder="Nome completo"
             value={name}
-            onFocus={() => setNameFocused(true)}
-            onBlur={() => setNameFocused(false)}
             onChangeText={setName}
-          />
-        </View>
-
-        <View style={Entrada.inputBox}>
-          <TextInput
-            style={Entrada.inputText}
-            placeholder={isEmailFocused ? '' : 'exemplo@email.com'}
-            value={email}
-            onFocus={() => setEmailFocused(true)}
-            onBlur={() => setEmailFocused(false)}
-            onChangeText={setEmail}
-            keyboardType="email-address"
             autoCapitalize="none"
           />
         </View>
 
         <View style={Entrada.inputBox}>
           <TextInputMask
-            type={'cel-phone'}
-            options={{
-              maskType: 'BRL',
-              withDDD: true,
-              dddMask: '(99) '
-            }}
+            style={Entrada.inputText}
+            placeholder="(00) 1234-4321"
             value={phone}
             onChangeText={setPhone}
-            onFocus={() => setPhoneFocused(true)}
-            onBlur={() => setPhoneFocused(false)}
+            autoCapitalize="none"
+            type="cel-phone"
+            options={{ maskType: 'BRL', withDDD: true, dddMask: '(99)' }}
+            keyboardType="number-pad"
+          />
+        </View>
+
+        <View style={Entrada.inputBox}>
+          <TextInput
             style={Entrada.inputText}
-            placeholder={isPhoneFocused ? '' : 'Celular'}
-            keyboardType="numeric"
+            placeholder="exemplo@email.com"
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
           />
         </View>
 
         <View style={Entrada.inputBox}>
           <TextInputMask
-            type={'zip-code'}
+            style={Entrada.inputText}
+            placeholder="CEP"
             value={CEP}
             onChangeText={setCEP}
-            onFocus={() => setCEPFocused(true)}
-            onBlur={() => setCEPFocused(false)}
-            style={Entrada.inputText}
-            placeholder={isCEPFocused ? '' : 'CEP'}
-            keyboardType="numeric"
+            autoCapitalize="none"
+            type="zip-code"
+            keyboardType="number-pad"
           />
         </View>
 
         <View style={Entrada.inputBox}>
           <TextInput
             style={Entrada.inputText}
-            placeholder={isCityFocused ? '' : 'Cidade'}
+            placeholder="Cidade"
             value={city}
-            onFocus={() => setCityFocused(true)}
-            onBlur={() => setCityFocused(false)}
             onChangeText={setCity}
-          />
-        </View>
-
-        <View style={Entrada.inputBox}>
-          <RNPickerSelect
-            onValueChange={setState}
-            placeholder={{
-              label: 'Estado',
-              value: null,
-              color: '#9EA0A4',
-            }}
-            style={{
-              inputAndroid: {
-                color: isStateFocused ? '#000' : '#9EA0A4',
-                fontSize: 18,
-                paddingHorizontal: 10,
-                paddingVertical: 12,
-              },
-              placeholder: {
-                color: '#9EA0A4',
-                fontSize: 18,
-              },
-            }}
-            items={[
-              { label: 'Acre', value: 'AC' },
-              { label: 'Alagoas', value: 'AL' },
-              { label: 'Amapá', value: 'AP' },
-              { label: 'Amazonas', value: 'AM' },
-              { label: 'Bahia', value: 'BA' },
-              { label: 'Ceará', value: 'CE' },
-              { label: 'Distrito Federal', value: 'DF' },
-              { label: 'Espírito Santo', value: 'ES' },
-              { label: 'Goiás', value: 'GO' },
-              { label: 'Maranhão', value: 'MA' },
-              { label: 'Mato Grosso', value: 'MT' },
-              { label: 'Mato Grosso do Sul', value: 'MS' },
-              { label: 'Minas Gerais', value: 'MG' },
-              { label: 'Pará', value: 'PA' },
-              { label: 'Paraíba', value: 'PB' },
-              { label: 'Paraná', value: 'PR' },
-              { label: 'Pernambuco', value: 'PE' },
-              { label: 'Piauí', value: 'PI' },
-              { label: 'Rio de Janeiro', value: 'RJ' },
-              { label: 'Rio Grande do Norte', value: 'RN' },
-              { label: 'Rio Grande do Sul', value: 'RS' },
-              { label: 'Rondônia', value: 'RO' },
-              { label: 'Roraima', value: 'RR' },
-              { label: 'Santa Catarina', value: 'SC' },
-              { label: 'São Paulo', value: 'SP' },
-              { label: 'Sergipe', value: 'SE' },
-              { label: 'Tocantins', value: 'TO' },
-            ]}
+            autoCapitalize="none"
           />
         </View>
 
         <View style={Entrada.inputBox}>
           <TextInput
             style={Entrada.inputText}
-            placeholder={isPasswordFocused ? '' : 'Senha'}
-            value={password}
-            onFocus={() => setPasswordFocused(true)}
-            onBlur={() => setPasswordFocused(false)}
-            onChangeText={setPassword}
-            secureTextEntry
+            placeholder="Estado"
+            value={state}
+            onChangeText={setState}
+            autoCapitalize="none"
           />
         </View>
 
         <View style={Entrada.inputBox}>
+            <TextInput
+              style={Entrada.inputText}
+              placeholder="Senha"
+              value={password}
+              onChangeText={setPassword}
+              onFocus={() => setIsPasswordFocused(true)}
+              onBlur={() => setIsPasswordFocused(false)}
+              autoCapitalize="none"
+              secureTextEntry
+            />
+            {isPasswordFocused && (
+              <View style={tips.tipsContainer}>
+                <Text style={explanation.littleEx}>- Deve ter pelo menos 8 caracteres</Text>
+                <Text style={explanation.littleEx}>- Deve conter pelo menos uma letra maiúscula</Text>
+                <Text style={explanation.littleEx}>- Deve conter pelo menos um número</Text>
+                <Text style={explanation.littleEx}>- Deve conter pelo menos um caractere especial</Text>
+              </View>
+            )}
+          </View>
+
+        <View style={Entrada.inputBox}>
           <TextInput
             style={Entrada.inputText}
-            placeholder={isConfirmPasswordFocused ? '' : 'Confirme a senha'}
+            placeholder="Confirme a senha"
             value={confirmPassword}
-            onFocus={() => setConfirmPasswordFocused(true)}
-            onBlur={() => setConfirmPasswordFocused(false)}
             onChangeText={setConfirmPassword}
+            autoCapitalize="none"
             secureTextEntry
           />
         </View>
 
-        <TouchableOpacity onPress={handleCadastro} style={button.darkButton}>
-          <Text style={button.text}>{"CADASTRAR"}</Text>
+        <TouchableOpacity onPress={handleFormSubmit} style={[button.darkButton, { opacity: isFormValid ? 1 : 0.5 }]} // Alterar a opacidade com base na validade do formulário
+            disabled={!isFormValid} // Desabilitar o botão se o formulário não estiver válido
+          >
+          <Text style={button.text}>ENTRAR</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Login')} style={button.clearButton}>
-          <Text style={button.clearText}>{"já tenho cadastro!"}</Text>
-        </TouchableOpacity>
+        <View style={{ backgroundColor: "#000000", borderRadius: 100, marginHorizontal: 120 }}></View>
+        </KeyboardAvoidingView>
       </ScrollView>
     </SafeAreaView>
   );
