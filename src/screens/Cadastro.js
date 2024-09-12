@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TextInputMask } from 'react-native-masked-text';
 import api from '../services/api';
-import React, { useState } from "react";
 import { TextInputMask } from 'react-native-masked-text';
 import RNPickerSelect from 'react-native-picker-select';
 import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
@@ -9,8 +7,6 @@ import { Entrada, NativeScreen, button, explanation, tips } from "../styles/styl
 import { AlertPassword, cadastroForm, isFormValid } from "../functions/functions";
 import { ArrowComponent, SameLine } from "../components/Arrow";
 import { KeyboardAvoidingView } from "react-native";
-
-import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles";
 
 const Cadastro = ({ navigation }) => {
   const [CPF, setCPF] = useState("");
@@ -21,48 +17,60 @@ const Cadastro = ({ navigation }) => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
-
-  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleFormSubmit = () => {
-    cadastroForm(navigation, CPF, name, phone, email, CEP, city, state, password, confirmPassword);
+    cadastroForm(navigation, CPF, name, phone, email, CEP, city, state, password);
   };
 
   
   useEffect(() => {
     validateForm();
-  }, [CPF, name, email, phone, CEP, city, state, password, confirmPassword]);
+  }, [CPF, name, email, phone, CEP, city, state, password]);
 
-  const handleCadastro = async () => {
-    if (password !== confirmPassword) {
-      Alert.alert('Erro', 'As senhas não coincidem');
-      return;
-    }
+  const handleSubmit = async () => {
+    const cleanCPF = CPF.replace(/\D/g, ''); 
+    const cleanPhone  = phone.replace(/\D/g, ''); 
+    const cleanPostalCode  = postalCode.replace(/\D/g, ''); 
+
+    // if (password !== confirmPassword) {
+    //   Alert.alert('Erro', 'As senhas não coincidem');
+    //   return;
+    //}
   
     try {
       const response = await api.post('/register', {
-        cpf: CPF,
+        cpf: cleanCPF,
         fullName: name,
         email: email,
-        phone: phone,
-        postalCode: CEP,
+        phone: cleanPhone,
+        postalCode: cleanPostalCode,
         city: city,
         state: state,
         password: password,
       });
 
-      if (response.data) {
-        Alert.alert('Sucesso', 'Cadastro realizado com sucesso');
-        navigation.navigate('Login'); 
+      const { _id } = response.data;
+      console.log(_id);
+      console.log('Resposta do servidor:', response);
+
+      if (response.status === 200) {
+          const { data } = response;
+          Alert.alert('Sucesso', data.message)
+          await AsyncStorage.setItem('token', data.token);
+          navigation.navigate('login');
       } else {
         Alert.alert('Erro', 'Não foi possível realizar o cadastro');
       }
     } catch (error) {
-      console.error('Erro ao fazer cadastro:', error.message);
-      Alert.alert('Erro', error.response?.data?.error || 'Não foi possível realizar o cadastro');
+      console.error('Erro ao fazer cadastro:', error);
+      Alert.alert('Erro', 'Não foi possível realizar o cadastro');
     }
+  };
+
+  const validateForm = () => {
+    // Add your validation logic and set the state
+    const isValid = CPF && name && email && phone && CEP && city && state && password && (password === confirmPassword);
+    setIsFormValid(isValid); // Use the correct state property
   };
   
   return (
@@ -77,36 +85,35 @@ const Cadastro = ({ navigation }) => {
           <TextInputMask
             type={'cpf'}
             value={CPF}
-            onChangeText={setCPF}
-            onFocus={() => setCPFFocused(true)}
-            onBlur={() => setCPFFocused(false)}
+            onChangeText={text => setCPF(text)}
             style={Entrada.inputText}
-            placeholder={isCPFFocused ? '' : 'CPF'}
+            placeholder={'CPF'}
             keyboardType="numeric"
+            autoCapitalize="none"
+              autoCorrect={false}
           />
         </View>
 
         <View style={Entrada.inputBox}>
           <TextInput
             style={Entrada.inputText}
-            placeholder={isNameFocused ? '' : 'Nome completo'}
+            placeholder={'Nome completo'}
             value={name}
-            onFocus={() => setNameFocused(true)}
-            onBlur={() => setNameFocused(false)}
-            onChangeText={setName}
+            onChangeText={text => setName(text)}
+            autoCapitalize="none"
+              autoCorrect={false}
           />
         </View>
 
         <View style={Entrada.inputBox}>
           <TextInput
             style={Entrada.inputText}
-            placeholder={isEmailFocused ? '' : 'exemplo@email.com'}
+            placeholder={'Seu e-mail'}
             value={email}
-            onFocus={() => setEmailFocused(true)}
-            onBlur={() => setEmailFocused(false)}
-            onChangeText={setEmail}
+            onChangeText={text => setEmail(text)}
             keyboardType="email-address"
             autoCapitalize="none"
+            autoCorrect={false}
           />
         </View>
 
@@ -119,11 +126,9 @@ const Cadastro = ({ navigation }) => {
               dddMask: '(99) '
             }}
             value={phone}
-            onChangeText={setPhone}
-            onFocus={() => setPhoneFocused(true)}
-            onBlur={() => setPhoneFocused(false)}
+            onChangeText={text => setPhone(text)}
             style={Entrada.inputText}
-            placeholder={isPhoneFocused ? '' : 'Celular'}
+            placeholder={'Celular'}
             keyboardType="numeric"
           />
         </View>
@@ -132,11 +137,9 @@ const Cadastro = ({ navigation }) => {
           <TextInputMask
             type={'zip-code'}
             value={CEP}
-            onChangeText={setCEP}
-            onFocus={() => setCEPFocused(true)}
-            onBlur={() => setCEPFocused(false)}
+            onChangeText={text => setCEP(text)}
             style={Entrada.inputText}
-            placeholder={isCEPFocused ? '' : 'CEP'}
+            placeholder={'CEP'}
             keyboardType="numeric"
           />
         </View>
@@ -144,17 +147,17 @@ const Cadastro = ({ navigation }) => {
         <View style={Entrada.inputBox}>
           <TextInput
             style={Entrada.inputText}
-            placeholder={isCityFocused ? '' : 'Cidade'}
+            placeholder={'Cidade'}
             value={city}
-            onFocus={() => setCityFocused(true)}
-            onBlur={() => setCityFocused(false)}
-            onChangeText={setCity}
+            onChangeText={text => setCity(text)}
+            autoCapitalize="none"
+              autoCorrect={false}
           />
         </View>
 
         <View style={Entrada.inputBox}>
           <RNPickerSelect
-            onValueChange={setState}
+            onValueChange={text => setState(text)}
             placeholder={{
               label: 'Estado',
               value: null,
@@ -162,10 +165,10 @@ const Cadastro = ({ navigation }) => {
             }}
             style={{
               inputAndroid: {
-                color: isStateFocused ? '#000' : '#9EA0A4',
-                fontSize: 18,
-                paddingHorizontal: 10,
-                paddingVertical: 12,
+                color: '#9EA0A4',
+                fontSize: 16,
+                paddingHorizontal: 8,
+                paddingVertical: 10,
               },
               placeholder: {
                 color: '#9EA0A4',
@@ -207,28 +210,25 @@ const Cadastro = ({ navigation }) => {
         <View style={Entrada.inputBox}>
           <TextInput
             style={Entrada.inputText}
-            placeholder={isPasswordFocused ? '' : 'Senha'}
+            placeholder={'Senha'}
             value={password}
-            onFocus={() => setPasswordFocused(true)}
-            onBlur={() => setPasswordFocused(false)}
-            onChangeText={setPassword}
+            onChangeText={text => setPassword(text)}
             secureTextEntry
           />
         </View>
 
+{/*}
         <View style={Entrada.inputBox}>
           <TextInput
             style={Entrada.inputText}
             placeholder={isConfirmPasswordFocused ? '' : 'Confirme a senha'}
             value={confirmPassword}
-            onFocus={() => setConfirmPasswordFocused(true)}
-            onBlur={() => setConfirmPasswordFocused(false)}
             onChangeText={setConfirmPassword}
             secureTextEntry
           />
         </View>
-
-        <TouchableOpacity onPress={handleCadastro} style={button.darkButton}>
+*/}
+        <TouchableOpacity onPress={handleSubmit} style={button.darkButton}>
           <Text style={button.text}>{"CADASTRAR"}</Text>
         </TouchableOpacity>
 

@@ -1,77 +1,77 @@
 import api from '../services/api';
 import React, { useState } from "react";
-import { View, ScrollView, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView } from "react-native";
+import { View,KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles"; 
-import { cadastroRedirect, feedRedirect } from '../functions/functions'; 
+import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles";
+import { cadastroRedirect, feedRedirect } from '../functions/functions';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isEmailFocused, setEmailFocused] = useState(false);
-  const [isPasswordFocused, setPasswordFocused] = useState(false);
 
-  const handleLogin = () => {
-    api.post('/login', {
-      email,
-      password,
-    })
-    .then((response) => {
-      const data = response.data;
-      if (data.token) {
-        Alert.alert('Login realizado com sucesso!');
-        feedRedirect(navigation);  // Supondo que feedRedirect é uma função que redireciona para a página Feed
+  const handleSubmit = async () => {
+    try {
+      const response = await api.post('/login', {
+        email,
+        password
+      });
+
+      const { _id } = response.data;
+      console.log(_id);
+      console.log('Resposta do servidor:', response);
+
+      // A resposta da API pode estar em response.data
+      console.log('Dados da resposta:', response.data);
+  
+      // Adicione lógica para manipular a resposta, por exemplo:
+      
+        if (response.status === 200) {
+          const { data } = response;
+          Alert.alert('Sucesso', data.message);
+          // Armazene o token ou faça outra ação conforme necessário
+          await AsyncStorage.setItem('token', data.token);
+          navigation.navigate('Feed');
       } else {
-        Alert.alert('Erro', data.error);
+        Alert.alert('Erro', 'Erro ao efetuar login');
       }
-    })
-    .catch((error) => {
-      Alert.alert('Erro', 'Não foi possível realizar o login.');
-      console.error(error);
-    });
-  };
+    }  catch (error) {
+      console.error('Erro ao fazer login:', error);
+      Alert.alert('Erro', 'Erro ao efetuar login');
+    }
+  }
 
   return (
     <SafeAreaView style={NativeScreen.safeAreaView}>
       <ScrollView style={NativeScreen.scrollView}>
-          <KeyboardAvoidingView>
           <View style={NativeScreen.View}></View>
-          <Text></Text>
-          <Text></Text>
-          <Text></Text>
           <Text style={explanation.bigExplanation}>{"WAY"}</Text>
-          <Text></Text>
-          <Text></Text>
-          <Text></Text>
           <Text style={explanation.bigExplanation}>{"LOGIN"}</Text>
           <Text style={explanation.littleEx}>{"Entre usando seu email e senha!"}</Text>
 
           <View style={Entrada.inputBox}>
             <TextInput
               style={Entrada.inputText}
-              placeholder={isEmailFocused ? '' : 'exemplo@email.com'}
+              placeholder={"Seu e-mail"}
               value={email}
-              onFocus={() => setEmailFocused(true)}
-              onBlur={() => setEmailFocused(false)}
-              onChangeText={setEmail}
+              onChangeText={text => setEmail(text)}
               keyboardType="email-address"
               autoCapitalize="none"
+              autoCorrect={false}
             />
           </View>
 
           <View style={Entrada.inputBox}>
             <TextInput
               style={Entrada.inputText}
-              placeholder={isPasswordFocused ? '' : 'senha'}
+              placeholder={"senha"}
               value={password}
-              onFocus={() => setPasswordFocused(true)}
-              onBlur={() => setPasswordFocused(false)}
-              onChangeText={setPassword}
+              onChangeText={text => setPassword(text)}
               secureTextEntry
             />
           </View>
           
-          <TouchableOpacity onPress={handleLogin} style={button.darkButton}>
+          <TouchableOpacity onPress={handleSubmit} style={button.darkButton}>
             <Text style={button.text}>{"ENTRAR"}</Text>
           </TouchableOpacity>
 
@@ -84,10 +84,6 @@ const Login = ({ navigation }) => {
           <TouchableOpacity onPress={() => navigation.navigate('Cadastro')} style={button.clearButton}>
             <Text style={button.clearText}>{"não tenho cadastro!"}</Text>
           </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Cadastro')} style={button.clearButton}>
-          <Text style={button.clearText}>{"não tenho cadastro!"}</Text>
-        </TouchableOpacity>
 
         <Text
           style={{
@@ -108,6 +104,7 @@ const Login = ({ navigation }) => {
         ></View>
       </ScrollView>
     </SafeAreaView>
+    
   );
 };
 
