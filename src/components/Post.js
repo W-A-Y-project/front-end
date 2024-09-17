@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
+
 import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Animated } from "react-native";
 import { Image } from "expo-image";
 import EyesComponent from '../components/Eyes';
@@ -108,10 +109,11 @@ const ComponentPost = StyleSheet.create({
 
 });
 
-const Post = () => {
+const Post = ({name, sexo, age, lastView, dateMiss, address}) => {
   const [expanded, setExpanded] = useState(false); // Estado para controlar expansão
   const animation = useRef(new Animated.Value(0)).current; // Valor animado para a expansão
 
+  
   const handlePress = () => {
     console.log('Post pressed'); // Confirma que a função é chamada
     const toValue = expanded ? 0 : 1;
@@ -142,16 +144,17 @@ const Post = () => {
           {
             width: interpolatedWidth,
             height: interpolatedHeight,
+            marginBottom: 5,  // Espaçamento entre os posts
           },
         ]}
       >
         <View style={ComponentPost.Container}>
-          <Text style={ComponentPost.nameText} numberOfLines={1} ellipsizeMode='tail'>Raphael Silva Costa</Text>
-          <Text style={ComponentPost.sexo} numberOfLines={2}>sexo: feminino</Text>
-          <Text style={ComponentPost.Age}>22 anos</Text>
-          <Text style={ComponentPost.LastView} numberOfLines={2} ellipsizeMode="tail">Visto pela última vez em: Higa Atacado</Text>
-          <Text style={ComponentPost.dateMiss}>10/10/2010</Text>
-          <Text style={ComponentPost.AddressTextStyle} numberOfLines={2} ellipsizeMode="tail">Mora na rua Culto a Ciencia-Campinas/SP</Text>
+          <Text style={ComponentPost.nameText} numberOfLines={1} ellipsizeMode='tail'>{name}</Text>
+          <Text style={ComponentPost.sexo} numberOfLines={2}>{sexo}</Text>
+          <Text style={ComponentPost.Age}>{age} anos</Text>
+          <Text style={ComponentPost.LastView} numberOfLines={2} ellipsizeMode="tail">Visto por último em: {lastView}</Text>
+          <Text style={ComponentPost.dateMiss}>{dateMiss}</Text>
+          <Text style={ComponentPost.AddressTextStyle} numberOfLines={2} ellipsizeMode="tail">{address}</Text>
         </View>
         <Image
           style={ComponentPost.frameChild}
