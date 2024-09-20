@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 export const point = StyleSheet.create(    
     {
@@ -56,6 +56,7 @@ export const point = StyleSheet.create(
 
 export const PointComponent = () => {
     return (
+      <TouchableOpacity  activeOpacity={0.9}>
         <View style={point.container}>
         <View style={point.frameChild}>
             <View style={point.triangleDown}/>
@@ -63,6 +64,8 @@ export const PointComponent = () => {
             <View style={point.ellipse22} />
         </View>
         </View>
+      </TouchableOpacity>
+
     );
     };
     

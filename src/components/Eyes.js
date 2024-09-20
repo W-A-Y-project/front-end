@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 
 
@@ -58,7 +58,8 @@ export const eyes = StyleSheet.create(
 
 const EyesComponent = () => {
   return (
-    <View style={eyes.container}>
+    <TouchableOpacity activeOpacity={0.9}>
+      <View style={eyes.container}>
       <View style={eyes.frameChild}>
         <View style={eyes.ellipse14} />
         <View style={eyes.ellipse15} />
@@ -66,6 +67,8 @@ const EyesComponent = () => {
         <View style={eyes.ellipse17} />
       </View>
     </View>
+    </TouchableOpacity>
+    
   );
 };
 

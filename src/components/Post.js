@@ -17,11 +17,28 @@ const ComponentPost = StyleSheet.create({
     judsonRegular: "Judson-Regular",
   },
 
-  Container: {
+  Container: {//esse é o container que fica ao lado...
     alignItems: 'center',
     padding: 10,
     justifyContent: 'space-evenly',
     width: width * 1.4,
+  },
+  
+  ExpandedContainer:{//esse é o container expandido
+    left: 10,
+    width: width * 0.97,
+    justifyContent: 'space-evenly',
+    top: 280,
+    position: "absolute",
+  },
+
+  ExpandedText:{
+    textAlign: 'left',
+    fontSize: 20,
+    width: width * 0.95,
+    color: "#f8f8ff",
+    marginBottom: 10,
+    justifyContent: "space-around",
   },
 
   nameText: {
@@ -98,7 +115,7 @@ const ComponentPost = StyleSheet.create({
     backgroundColor: "#2f4f4f",
   },
 
-  PostComponent: {
+  PostComponent: {//esse é o componente do post completo
     borderRadius: 23,
     width: width * 0.97,
     height: 250,
@@ -109,7 +126,7 @@ const ComponentPost = StyleSheet.create({
 
 });
 
-const Post = ({name, sexo, age, lastView, dateMiss, address}) => {
+const Post = ({name, sexo, age, lastView, dateMiss, address, skin, eyesColor, characteristics, hair, illness, vehicle, clothes}) => {
   const [expanded, setExpanded] = useState(false); // Estado para controlar expansão
   const animation = useRef(new Animated.Value(0)).current; // Valor animado para a expansão
 
@@ -118,13 +135,16 @@ const Post = ({name, sexo, age, lastView, dateMiss, address}) => {
     console.log('Post pressed'); // Confirma que a função é chamada
     const toValue = expanded ? 0 : 1;
     setExpanded(!expanded);
-
     Animated.timing(animation, {
       toValue,
       duration: 300,
       useNativeDriver: false,
     }).start();
   };
+
+
+
+
 
   const interpolatedWidth = animation.interpolate({
     inputRange: [0, 1],
@@ -135,6 +155,11 @@ const Post = ({name, sexo, age, lastView, dateMiss, address}) => {
     inputRange: [0, 1],
     outputRange: [250, height-100], // Expande para a altura total
   });
+
+
+
+
+
 
   return (
     <TouchableOpacity onPress={handlePress} activeOpacity={1}>
@@ -155,16 +180,31 @@ const Post = ({name, sexo, age, lastView, dateMiss, address}) => {
           <Text style={ComponentPost.LastView} numberOfLines={2} ellipsizeMode="tail">Visto por último em: {lastView}</Text>
           <Text style={ComponentPost.dateMiss}>{dateMiss}</Text>
           <Text style={ComponentPost.AddressTextStyle} numberOfLines={2} ellipsizeMode="tail">{address}</Text>
+
+          {expanded &&(
+            <View style={ComponentPost.ExpandedContainer}>
+              <Text style={ComponentPost.ExpandedText} numberOfLines={2} ellipsizeMode="tail">Cor da pele: {skin}</Text>
+              <Text style={ComponentPost.ExpandedText} numberOfLines={2} ellipsizeMode="tail">cor dos olhos: {eyesColor}</Text>
+              <Text style={ComponentPost.ExpandedText} numberOfLines={3} ellipsizeMode="tail">características: {characteristics}</Text>
+              <Text style={ComponentPost.ExpandedText} numberOfLines={2} ellipsizeMode="tail">tipo e cor de cabelo: {hair}</Text>
+              <Text style={ComponentPost.ExpandedText} numberOfLines={3} ellipsizeMode="tail">Deficiência: {illness}</Text>
+              <Text style={ComponentPost.ExpandedText} numberOfLines={2} ellipsizeMode="tail">Veículo: {vehicle}</Text>
+              <Text style={ComponentPost.ExpandedText} numberOfLines={5} ellipsizeMode="tail">Roupas que estava vestindo: {clothes}</Text>
+            </View>//mapa futuramente aqui skksksks
+              
+          )}
         </View>
         <Image
           style={ComponentPost.frameChild}
           contentFit="cover"
           source={require("../../assets/picMissing.png")}
         />
+
         <View style={ComponentPost.postActions}>
-          <EyesComponent />
-          <PointComponent />
+          <EyesComponent/>
+          <PointComponent/>
         </View>
+      
       </Animated.View>
     </TouchableOpacity>
   );

@@ -6,6 +6,7 @@ import { cadastroRedirect, verifyLogin } from '../functions/functions';
 import Post from "../components/Post";
 import PointComponent from "../components/Point";
 import SearchBarComponent from "../components/searchBar";
+import TabBarComponent from "../components/TabBar";
 
 const Feed = ({ navigation }) => {
   const postData = [ 
@@ -17,7 +18,13 @@ const Feed = ({ navigation }) => {
     lastView: "Shopping das marias",
     dateMiss: "10/10/1010",
     address: "rua marymary 22, Campinas/SP",
-
+    skin: "branca",
+    eyesColor: "castanho escuro",
+    characteristics: "tatuagem de palhaço nas duas pernas",
+    hair: "longo, azul marinho",
+    illness: "não",
+    vehicle: "moto vermelha: abc-1234",
+    clothes: "vestido rosa, blusa de frio azul claro com gorro de trico preto, crocs pink"
   },
 
   {
@@ -27,7 +34,14 @@ const Feed = ({ navigation }) => {
     age: 86,
     lastView: "Casa de apoio a idosos",
     dateMiss: "12/02/24",
-    address: "rua dos idosos preeguiçosos/SP"
+    address: "rua dos idosos preeguiçosos/SP",
+    skin: "branca",
+    eyesColor: "castanho escuro",
+    characteristics: "tatuagem de palhaço nas duas pernas",
+    hair: "longo, azul marinho",
+    illness: "não",
+    vehicle: "moto vermelha: abc-1234",
+    clothes: "vestido rosa, blusa de frio azul claro com gorro de trico preto, crocs pink"
   },
   
   {
@@ -37,7 +51,14 @@ const Feed = ({ navigation }) => {
     age: 823,
     lastView: "Casa de apoio a idosos",
     dateMiss: "12/04/1345",
-    address: "rua dos idosos preeguiçosos/SP"
+    address: "rua dos idosos preeguiçosos/SP",
+    skin: "branca",
+    eyesColor: "castanho escuro",
+    characteristics: "tatuagem de palhaço nas duas pernas",
+    hair: "longo, azul marinho",
+    illness: "não",
+    vehicle: "moto vermelha: abc-1234",
+    clothes: "vestido rosa, blusa de frio azul claro com gorro de trico preto, crocs pink"
   },
   
   {
@@ -47,7 +68,14 @@ const Feed = ({ navigation }) => {
     age: 11,
     lastView: "Casa de apoio a kids",
     dateMiss: "12/02/24",
-    address: "rua das crianças perdidas/SP"
+    address: "rua das crianças perdidas/SP",
+    skin: "branca",
+    eyesColor: "castanho escuro",
+    characteristics: "tatuagem de palhaço nas duas pernas",
+    hair: "longo, azul marinho",
+    illness: "não",
+    vehicle: "moto vermelha: abc-1234",
+    clothes: "vestido rosa, blusa de frio azul claro com gorro de trico preto, crocs pink"
   }
 
 ]
@@ -71,11 +99,19 @@ const Feed = ({ navigation }) => {
           age={person.age}
           lastView={person.lastView}
           dateMiss={person.dateMiss}
-          address={person.address}/>
-        
-        ))}
-        
+          address={person.address}
+          skin={person.skin}
+          eyesColor={person.eyesColor}
+          characteristics={person.characteristics}
+          hair={person.hair}
+          illness={person.illness}
+          vehicle={person.vehicle}
+          clothes={person.clothes}/>
+          
+        ))
+        }
       </ScrollView>
+      <TabBarComponent/>
     </SafeAreaView>
   );
 };
