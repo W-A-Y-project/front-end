@@ -28,7 +28,7 @@ const ComponentPost = StyleSheet.create({
     left: 10,
     width: width * 0.97,
     justifyContent: 'space-evenly',
-    top: 280,
+    top: 270,
     position: "absolute",
   },
 
