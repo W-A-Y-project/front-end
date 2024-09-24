@@ -27,7 +27,18 @@ export const Entrada = StyleSheet.create({
     {
         color: "#171B3B",
         fontSize: 14,
-    }
+    },
+    
+    inputAndroid: {
+      backgroundColor: "#FFFFFF",
+      borderColor: "#DADADA",
+      borderRadius: 8,
+      borderWidth: 1,
+      paddingVertical: 2,
+      paddingHorizontal: 17,
+      marginBottom: 16,
+      marginHorizontal: 24,
+      }
 
 })
 

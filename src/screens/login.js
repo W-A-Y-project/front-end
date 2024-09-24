@@ -23,10 +23,8 @@ const Login = ({ navigation }) => {
 
       // A resposta da API pode estar em response.data
       console.log('Dados da resposta:', response.data);
-  
-      // Adicione lógica para manipular a resposta, por exemplo:
       
-        if (response.status === 200) {
+        if (response.status === 201 || response.status === 200) {
           const { data } = response;
           Alert.alert('Sucesso', data.message);
           // Armazene o token ou faça outra ação conforme necessário
