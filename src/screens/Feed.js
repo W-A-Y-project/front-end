@@ -5,6 +5,7 @@ import { Entrada, divider, explanation, button, NativeScreen, Responsive } from 
 import { cadastroRedirect, verifyLogin } from '../functions/functions'; 
 import Post from "../components/Post";
 import PointComponent from "../components/Point";
+import Missing from "./Missing";
 import SearchBarComponent from "../components/searchBar";
 import TabBarComponent from "../components/TabBar";
 
@@ -111,7 +112,7 @@ const Feed = ({ navigation }) => {
         ))
         }
       </ScrollView>
-      <TabBarComponent/>
+        <TabBarComponent/>
     </SafeAreaView>
   );
 };

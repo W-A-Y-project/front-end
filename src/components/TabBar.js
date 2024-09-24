@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // Corrigido para usar o hook corretamente
 import PlusComponent from './Plus';
 
 const { width } = Dimensions.get('window');
@@ -13,7 +14,6 @@ const tabBar = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#E0E0E0',
     flexDirection: 'row',
-    //justifyContent: 'center', // Centraliza os itens horizontalmente
   },
   buttonContainer: {
     position: 'absolute',
@@ -23,6 +23,7 @@ const tabBar = StyleSheet.create({
 
 const TabBarComponent = () => {
   const [clicked, setClicked] = useState(false);
+  const navigation = useNavigation(); // Corrigido aqui
 
   return (
     <View style={tabBar.tabs}>
@@ -30,8 +31,8 @@ const TabBarComponent = () => {
         <TouchableOpacity
           onPress={() => {
             setClicked(true);
-            // Aqui você pode adicionar qualquer lógica que queira ao clicar
             setTimeout(() => setClicked(false), 200); // Reseta o estado após 200ms
+            navigation.navigate('Missing'); // Navegando para a tela "Missing"
           }}
         >
           <PlusComponent clicked={clicked} />
