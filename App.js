@@ -1,5 +1,5 @@
-
-import * as React from 'react';
+import react, { useState } from 'react';
+//import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from './src/screens/login';
@@ -9,14 +9,16 @@ import { AppRegistry, StatusBar } from 'react-native';
 import {WAYP as appName} from './app.json';
 
 const Stack = createStackNavigator();
-
+//const [isStatusBarVisible, setStatusBarVisible] = useState(true);
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+      <StatusBar /> 
+      {/*hidden={!isStatusBarVisible}/>*/}
+      <Stack.Navigator initialRouteName="Feed" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name = "Feed" component={Feed}/>
         <Stack.Screen name = "Login" component={Login} />
         <Stack.Screen name = "Cadastro" component={Cadastro} />
-        <Stack.Screen name = "Feed" component={Feed}/>
         
       </Stack.Navigator>
     </NavigationContainer>

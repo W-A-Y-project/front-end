@@ -222,7 +222,8 @@ const Cadastro = ({ navigation }) => {
         
         <View style={Entrada.inputBox}>
           <TextInputMask
-            type={'cpf'}
+            style={Entrada.inputText}
+            placeholder="CPF"
             value={CPF}
             onChangeText={text => setCPF(text)}
             style={Entrada.inputText}
@@ -258,12 +259,8 @@ const Cadastro = ({ navigation }) => {
 
         <View style={Entrada.inputBox}>
           <TextInputMask
-            type={'cel-phone'}
-            options={{
-              maskType: 'BRL',
-              withDDD: true,
-              dddMask: '(99) '
-            }}
+            style={Entrada.inputText}
+            placeholder="(00) 1234-4321"
             value={phone}
             onChangeText={text => setPhone(text)}
             style={Entrada.inputText}

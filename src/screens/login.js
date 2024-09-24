@@ -1,4 +1,3 @@
-import api from '../services/api';
 import React, { useState } from "react";
 import { View,KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
