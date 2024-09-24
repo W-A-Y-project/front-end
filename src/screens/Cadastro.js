@@ -223,10 +223,8 @@ const Cadastro = ({ navigation }) => {
         <View style={Entrada.inputBox}>
           <TextInputMask
             style={Entrada.inputText}
-            placeholder="CPF"
             value={CPF}
             onChangeText={text => setCPF(text)}
-            style={Entrada.inputText}
             placeholder={'CPF'}
             keyboardType="numeric"
             autoCapitalize="none"
@@ -263,8 +261,6 @@ const Cadastro = ({ navigation }) => {
             placeholder="(00) 1234-4321"
             value={phone}
             onChangeText={text => setPhone(text)}
-            style={Entrada.inputText}
-            placeholder={'Celular'}
             keyboardType="numeric"
           />
         </View>
@@ -386,4 +382,4 @@ const Cadastro = ({ navigation }) => {
   );
 };
 
-export default Cadastro;
+export default Cadastro; 

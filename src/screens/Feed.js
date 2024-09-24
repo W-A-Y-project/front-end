@@ -80,12 +80,6 @@ const Feed = ({ navigation }) => {
 
 ]
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isEmailFocused, setEmailFocused] = useState(false);
-  const [isPasswordFocused, setPasswordFocused] = useState(false);
-
-
   return (
     <SafeAreaView style={[NativeScreen.safeAreaView]}>
       <SearchBarComponent/>
