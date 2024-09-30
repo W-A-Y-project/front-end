@@ -1,10 +1,12 @@
 import React from "react";
-import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from "react-native";
+import { useState } from "react";
+import { SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, navigate } from "react-native";
 import { TextInputMask } from 'react-native-masked-text';
 import { Entrada, NativeScreen, button, explanation } from "../styles/styles";
 import { isFormValid } from "../functions/functions";
 import { ArrowComponent, SameLine } from "../components/Arrow";
-import CheckboxComponent from '../components/checkBox';
+import CheckboxComponent from "../components/checkBox";
+import Feed from "./Feed";
 
 
 const InputField = ({ placeholder, isMasked, maskType, keyboardType }) => {
@@ -30,7 +32,14 @@ const InputField = ({ placeholder, isMasked, maskType, keyboardType }) => {
   );
 };
 
+
 const Missing = ({ navigation }) => {
+
+  const [isDisabledChecked, setIsDisabledChecked] = useState(false);
+  const [hasSocialMedia, setHasSocialMedia] = useState(false);
+  const [hadPhoneChecked, setHadPhoneChecked] = useState(false);
+  const [wasDrivingChecked, setWasDrivingChecked] = useState(false);
+
   return (
     <SafeAreaView style={NativeScreen.SafeAreaView}>
       <ScrollView style={NativeScreen.ScrollView}>
@@ -45,7 +54,6 @@ const Missing = ({ navigation }) => {
             <Text/>
             <Text/>
             <Text/>
-
           </View>
 
           <InputField placeholder="Nome do desaparecido" isMasked={false} keyboardType="default" />
@@ -58,8 +66,56 @@ const Missing = ({ navigation }) => {
           <InputField placeholder="Sinais particulares. Ex: tatuagem, cicatriz" isMasked={false} keyboardType="default" />
           <InputField placeholder="Roupas que o desaparecido estava vestindo" isMasked={false} keyboardType="default" />
 
-        {/*<CheckboxComponent/>*/}{/*Checkbox não funcionando*/}
-          <TouchableOpacity style={button.darkButton}>
+          <CheckboxComponent
+            label="É pessoa com deficiência mental"
+            isChecked={isDisabledChecked}
+            toggleCheckbox={() => setIsDisabledChecked(!isDisabledChecked)}
+          />
+          {isDisabledChecked && (
+            <TextInput
+              style={Entrada.inputBox}
+              placeholder="Qual é a deficiência?"
+            />
+          )}
+
+          <CheckboxComponent
+            label="Tem redes sociais"
+            isChecked={hasSocialMedia}
+            toggleCheckbox={() => setHasSocialMedia(!hasSocialMedia)}
+          />
+          {hasSocialMedia && (
+            <TextInput
+              style={Entrada.inputBox}
+              placeholder="Digite as redes sociais"
+            />
+          )}
+
+          <CheckboxComponent
+            label="Estava com telefone quando desapareceu"
+            isChecked={hadPhoneChecked}
+            toggleCheckbox={() => setHadPhoneChecked(!hadPhoneChecked)}
+          />
+          {hadPhoneChecked && (
+            <TextInput
+              style={Entrada.inputBox}
+              placeholder="Digite o número do telefone"
+              keyboardType="phone-pad"
+            />
+          )}
+
+          <CheckboxComponent
+            label="Dirigia algum veículo quando desapareceu"
+            isChecked={wasDrivingChecked}
+            toggleCheckbox={() => setWasDrivingChecked(!wasDrivingChecked)}
+          />
+          {wasDrivingChecked && (
+            <TextInput
+              style={Entrada.inputBox}
+              placeholder="Digite a placa do veículo"
+            />
+          )}
+
+          <TouchableOpacity onPress={()=> navigation.navigate('BO')} style={button.darkButton}>
             <Text style={button.text}>Próximo</Text>
           </TouchableOpacity>
 

@@ -63,7 +63,7 @@ const Feed = ({ navigation }) => {
   },
   
   {
-    id: 3,
+    id: 4,
     name: "ladorica",
     sexo: "feminino",
     age: 11,
@@ -112,7 +112,10 @@ const Feed = ({ navigation }) => {
         ))
         }
       </ScrollView>
-        <TabBarComponent/>
+      <TouchableOpacity onPress={navigation.navigate('Missing')}>
+      <TabBarComponent/>
+      </TouchableOpacity>
+        
     </SafeAreaView>
   );
 };

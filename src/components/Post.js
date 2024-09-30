@@ -13,10 +13,6 @@ const ComponentPost = StyleSheet.create({
     backgroundColor: "#363851"
   },
 
-  FontFamily: {
-    judsonRegular: "Judson-Regular",
-  },
-
   Container: {//esse é o container que fica ao lado...
     alignItems: 'center',
     padding: 10,
@@ -44,7 +40,6 @@ const ComponentPost = StyleSheet.create({
   nameText: {
     fontSize: 20,
     color: "#f8f8ff",
-    fontFamily: "Judson-Regular",
     textAlign: 'center',
     marginBottom: 10,
   },
@@ -53,7 +48,6 @@ const ComponentPost = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     color: "#f8f8ff",
-    fontFamily: "Judson-Regular",
     marginBottom: 10,
   },
 
@@ -61,7 +55,6 @@ const ComponentPost = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     color: "#f8f8ff",
-    fontFamily: "Judson-Regular",
     marginBottom: 10,
   },
 
@@ -70,7 +63,6 @@ const ComponentPost = StyleSheet.create({
     textAlign: 'center',
     width: 160,
     color: "#f8f8ff",
-    fontFamily: "Judson-Regular",
     marginBottom: 10,
   },
 
@@ -78,7 +70,6 @@ const ComponentPost = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     color: "#f8f8ff",
-    fontFamily: "Judson-Regular",
     marginBottom: 10,
   },
 
@@ -87,7 +78,6 @@ const ComponentPost = StyleSheet.create({
     width: 150,
     color: "#f8f8ff",
     fontSize: 14,
-    fontFamily: "Judson-Regular",
     marginBottom: 10,
   },
 
