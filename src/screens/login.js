@@ -4,6 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles";
 import { cadastroRedirect, feedRedirect } from '../functions/functions';
+import api from '../services/api'; // Corrigido para uma importação padrão
+
+
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
