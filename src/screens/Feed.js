@@ -5,6 +5,7 @@ import { Entrada, divider, explanation, button, NativeScreen, Responsive } from 
 import { cadastroRedirect, verifyLogin } from '../functions/functions'; 
 import Post from "../components/Post";
 import PointComponent from "../components/Point";
+import Missing from "./Missing";
 import SearchBarComponent from "../components/searchBar";
 import TabBarComponent from "../components/TabBar";
 
@@ -62,7 +63,7 @@ const Feed = ({ navigation }) => {
   },
   
   {
-    id: 3,
+    id: 4,
     name: "ladorica",
     sexo: "feminino",
     age: 11,
@@ -105,7 +106,10 @@ const Feed = ({ navigation }) => {
         ))
         }
       </ScrollView>
+      <TouchableOpacity onPress={navigation.navigate('Missing')}>
       <TabBarComponent/>
+      </TouchableOpacity>
+        
     </SafeAreaView>
   );
 };
