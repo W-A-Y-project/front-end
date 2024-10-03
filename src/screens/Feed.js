@@ -8,6 +8,8 @@ import PointComponent from "../components/Point";
 import Missing from "./Missing";
 import SearchBarComponent from "../components/searchBar";
 import TabBarComponent from "../components/TabBar";
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 const Feed = ({ navigation }) => {
   const postData = [ 
@@ -106,10 +108,23 @@ const Feed = ({ navigation }) => {
         ))
         }
       </ScrollView>
-      <TouchableOpacity onPress={navigation.navigate('Missing')}>
+
+      <TouchableOpacity
+  style={{
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: '#000',
+    borderRadius: 50,
+    padding: 15,
+  }}
+  onPress={() => navigation.navigate('Missing')}
+>
+  <Icon name="add" size={30} color="white" />
+</TouchableOpacity>
+
       <TabBarComponent/>
-      </TouchableOpacity>
-        
+
     </SafeAreaView>
   );
 };
