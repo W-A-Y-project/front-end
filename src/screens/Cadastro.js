@@ -27,7 +27,7 @@ const Cadastro = ({ navigation }) => {
 
   
   useEffect(() => {
-    validateForm();
+    //validateForm();
   }, [CPF, name, email, phone, CEP, city, state, password, confirmPassword]);
 
 
