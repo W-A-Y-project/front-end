@@ -7,6 +7,7 @@ import { ArrowComponent, SameLine } from "../components/Arrow";
 import { KeyboardAvoidingView } from "react-native";
 import { Arrow } from "../components/Arrow";
 import ChatHeaderComponent from "../components/ChatHeader";
+import InputChatBarComponent from "../components/inputChatBar";
 
 const Cadastro = ({ navigation }) => {
 
@@ -18,9 +19,11 @@ const Cadastro = ({ navigation }) => {
             <ChatHeaderComponent/>
         </View>
 
-        <View style={{ backgroundColor: "#000000", borderRadius: 100, marginHorizontal: 120 }}></View>
+        <View style={{ backgroundColor: "#000000", borderRadius: 100, marginHorizontal: 120 }}>
+        </View>
         </KeyboardAvoidingView>
       </ScrollView>
+        <InputChatBarComponent></InputChatBarComponent>
     </SafeAreaView>
   );
 };

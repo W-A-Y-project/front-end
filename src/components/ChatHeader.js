@@ -33,7 +33,7 @@ const chatHeader = StyleSheet.create({
 
 const ChatHeaderComponent = () => {
     return(
-        <View   >
+        <View>
             <View style = {chatHeader.bar}>
                 <View>
                     <LightArrowComponent/>
