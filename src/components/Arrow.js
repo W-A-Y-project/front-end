@@ -6,10 +6,10 @@ export const darkArrow = StyleSheet.create({
     container: {
         width: 30, 
         height: 30,
-        justifyContent: 'center', 
-        alignItems: 'center', 
+        //justifyContent: 'center', 
+        //alignItems: 'center', 
     },
-    rectangle32: {
+    rectangle32: { 
         width: 10,
         height: 2,
         backgroundColor: '#171B3B', 
@@ -36,13 +36,15 @@ export const lightArrow = StyleSheet.create({
         height: 2,
         backgroundColor: '#FFFFFF', 
         transform: [{ rotate: '-45deg' }],
+        top: 0.5,
     },
     rectangle33: {
         width: 10,
         height: 2,
         backgroundColor: '#FFFFFF', 
         transform: [{ rotate: '45deg' }],
-        marginTop: 2, 
+        //marginTop: 2,
+        top: 3.6, 
     },
 });
 

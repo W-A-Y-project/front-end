@@ -8,33 +8,38 @@ const { width, height } = Dimensions.get('window');
 
 const chatHeader = StyleSheet.create({
     bar:{
-        //position: 'absolute',
         width: width,
-        height: 35,
+        height: 60,
         top: 0,
         backgroundColor: '#171B3B',
         flexDirection: 'row',
         alignItems: 'center',
-        //zIndex: 1, // Certifica-se que o componente ficará acima dos outros
+        justifyContent: 'flex-start',
     },
 
-    PictureFrame: {//frame da foto da pessoa
+    pictureFrame: {//frame da foto da pessoa
         left: width * 0.04,
-        top: 28,
         height: 30,
         width: 30,
-        position: "absolute",
+        borderRadius: 20,
       },
+
+    nameText:{
+        color: '#FFFFFF',
+        fontSize: 20,
+        marginLeft: 30,
+    }
 })
 
 const ChatHeaderComponent = () => {
     return(
-        <View>
+        <View   >
             <View style = {chatHeader.bar}>
                 <View>
                     <LightArrowComponent/>
                 </View>
-                {/*<Image style={chatHeader.PictureFrame} contentFit="cover" source={require("../../assets/searchIcon.png")}/>*/ }
+                    <Image style={chatHeader.pictureFrame} contentFit="cover" source={require("../../assets/picMissing.png")}/>{/*Nem me lembro se vai ter isso aqui...*/}
+                    <Text style={chatHeader.nameText}>Rafela Ferreira</Text>
             </View>
         </View>
     )
