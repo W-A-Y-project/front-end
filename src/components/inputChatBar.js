@@ -7,7 +7,13 @@ import { LightArrowComponent, SameLine } from './Arrow';
 const { width, height } = Dimensions.get('window');
 
 const inputChat = StyleSheet.create({
+    container: {
+        flex: 1, 
+        justifyContent: 'flex-end',
+    },
+
     bar:{
+        flex: 1,
         position: 'absolute',
         width: width,
         height: 60,
@@ -15,7 +21,6 @@ const inputChat = StyleSheet.create({
         backgroundColor: '#171B3B',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
         position: 'absolute',
         width: width,
     },
@@ -27,11 +32,12 @@ const inputChat = StyleSheet.create({
     }
 })
 
+
 const InputChatBarComponent = () => {
     return(
-        <View>
-            <View style = {inputChat.bar}>
-                <Text>rigor</Text>
+        <View style={inputChat.container}>
+            <View>
+                <Text style={inputChat.chatText}>rigor</Text>
             </View>
         </View>
     )

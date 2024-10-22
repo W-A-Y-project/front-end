@@ -23,7 +23,7 @@ const Cadastro = ({ navigation }) => {
         </View>
         </KeyboardAvoidingView>
       </ScrollView>
-        <InputChatBarComponent></InputChatBarComponent>
+        <InputChatBarComponent/>
     </SafeAreaView>
   );
 };
