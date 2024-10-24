@@ -30,7 +30,7 @@ const searchBar = StyleSheet.create({
         height: 30,
         width: 30,
         position: "absolute",
-      },
+    },
 })
 //<TouchableOpacity onPress={() => navigation.navigate('Login')}>
 const SearchBarComponent = () => {

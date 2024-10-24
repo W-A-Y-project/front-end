@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Correto
 import PlusComponent from './Plus'; // Certifique-se de que este componente está funcionando corretamente
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 const { width } = Dimensions.get('window');
 
@@ -27,9 +29,19 @@ const TabBarComponent = () => {
 
   return (
     <View style={tabBar.tabs}>
-      <View style={tabBar.buttonContainer}>
-          <PlusComponent clicked={clicked} />
-      </View>
+      <TouchableOpacity
+        style={{
+        position: 'absolute',
+        bottom: 1,
+        right: 175,
+        backgroundColor: '#707070',
+        borderRadius: 50,
+        padding: 15,
+      }}
+      onPress={() => navigation.navigate('Missing')}
+    >
+      <Icon name="add" size={15} color="white" />
+      </TouchableOpacity>
     </View>
   );
 };

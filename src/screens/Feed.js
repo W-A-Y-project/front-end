@@ -109,19 +109,6 @@ const Feed = ({ navigation }) => {
         }
       </ScrollView>
 
-      <TouchableOpacity
-  style={{
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    backgroundColor: '#000',
-    borderRadius: 50,
-    padding: 15,
-  }}
-  onPress={() => navigation.navigate('Missing')}
->
-  <Icon name="add" size={30} color="white" />
-</TouchableOpacity>
 
       <TabBarComponent/>
 
