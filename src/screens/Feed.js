@@ -108,7 +108,6 @@ const Feed = ({ navigation }) => {
           illness={person.illness}
           vehicle={person.vehicle}
           clothes={person.clothes}/>
-          
         ))
         }
       </ScrollView>

@@ -66,6 +66,7 @@ export const NativeScreen = StyleSheet.create({
     {
         flex: 1,
         backgroundColor: "#DFDFDF",
+        padding: 60,
     },
 
     View: 
