@@ -1,35 +1,48 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 const messageDesign = StyleSheet.create({
   container: {
-    maxWidth: '75%',
+    maxWidth: '180%', 
     borderRadius: 20,
     padding: 10,
-    marginVertical: 5,
-    marginHorizontal: 10,
+    marginVertical: 4,
   },
   userMessage: {
-    backgroundColor: '#171B3B', // Cor do balão do usuário
+    backgroundColor: "#363851", // Cor do balão do usuário
     alignSelf: 'flex-end',
   },
   otherMessage: {
     backgroundColor: '#FFFFFF', // Cor do balão de mensagens de outros
     alignSelf: 'flex-start',
   },
-  messageText: {
+  MymessageText: {
+    color: '#FFFFFF', // Cor do texto
+  },
+  TheymessageText: {
     color: '#000000', // Cor do texto
   },
+
+
 });
 
+export const MyMessageComponent = ({ text, isUser }) => {
+  return (
+    <View style={[messageDesign.container, isUser ? messageDesign.userMessage : messageDesign.otherMessage]}>
+      <Text style={messageDesign.MymessageText}>{text}</Text>
+    </View>
+  );
+};
 
-const MessageComponent = ({ text, isUser }) => {
+
+export const TheymessageComponent = ({ text, isUser }) => {
     return (
       <View style={[messageDesign.container, isUser ? messageDesign.userMessage : messageDesign.otherMessage]}>
-        <Text style={messageDesign.messageText}>{text}</Text>
+        <Text style={messageDesign.TheymessageText}>{text}</Text>
       </View>
     );
   };
 
 
-export default MessageComponent;
