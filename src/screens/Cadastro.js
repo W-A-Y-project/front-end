@@ -221,14 +221,14 @@ const Cadastro = ({ navigation }) => {
         <Text style={explanation.littleEx}>{"Insira seus dados corretamente!"}</Text>
         
         <View style={Entrada.inputBox}>
-          <TextInputMask
+          <TextInput
             style={Entrada.inputText}
             value={CPF}
             onChangeText={text => setCPF(text)}
             placeholder={'CPF'}
             keyboardType="numeric"
             autoCapitalize="none"
-              autoCorrect={false}
+            autoCorrect={false}
           />
         </View>
 
@@ -256,7 +256,7 @@ const Cadastro = ({ navigation }) => {
         </View>
 
         <View style={Entrada.inputBox}>
-          <TextInputMask
+          <TextInput
             style={Entrada.inputText}
             placeholder="(00) 1234-4321"
             value={phone}
@@ -266,7 +266,7 @@ const Cadastro = ({ navigation }) => {
         </View>
 
         <View style={Entrada.inputBox}>
-          <TextInputMask
+          <TextInput
             type={'zip-code'}
             value={postalCode}
             onChangeText={text => setPostalCode(text)}
