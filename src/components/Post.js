@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 
-import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Animated } from "react-native";
-import { Image } from "expo-image";
+import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Animated, Image } from "react-native";
+//import { Image } from "expo-image";
 import EyesComponent from '../components/Eyes';
 import PointComponent from "./Point";
 
@@ -186,7 +186,6 @@ const Post = ({name, sexo, age, lastView, dateMiss, address, skin, eyesColor, ch
         </View>
         <Image
           style={ComponentPost.frameChild}
-          contentFit="cover"
           source={require("../../assets/picMissing.png")}
         />
 

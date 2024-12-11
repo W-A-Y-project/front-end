@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView, ScrollView, KeyboardAvoidingView, StyleSheet, Dimensions } from "react-native";
 import axios from "axios";
 import ChatHeaderComponent from "../components/ChatHeader";
-import InputChatBarComponent from "../components/InputChatBar";
 import ChatBackgroundComponent from "../components/ChatBackground";
 import { NativeScreen } from "../styles/styles";
-import MyMessageComponent from "../components/MyMessageComponent";
-import TheymessageComponent from "../components/TheymessageComponent";
+import MyMessageComponent from "../components/Message";
+import TheymessageComponent from "../components/Message";
+import InputChatBarComponent from "../components/inputChatBar";
 
 const { height } = Dimensions.get("window");
 

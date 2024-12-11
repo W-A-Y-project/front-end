@@ -19,13 +19,12 @@ export default function App() {
       <StatusBar /> 
       {/*hidden={!isStatusBarVisible}/>*/}
       <Stack.Navigator initialRouteName="Chat" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name = "Chat" component={Chat}/>
-        
         <Stack.Screen name = "Login" component={Login} />
         <Stack.Screen name = "Feed" component={Feed}/>
         <Stack.Screen name = "Missing" component={Missing}/>
         <Stack.Screen name = "Cadastro" component={Cadastro}/>
         <Stack.Screen name = "BO" component={BO}/>
+        <Stack.Screen name = "Chat" component={Chat}/>
         
       </Stack.Navigator>
     </NavigationContainer>

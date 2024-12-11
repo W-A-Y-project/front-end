@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Dimensions, Image } from 'react-native';
 import { Text } from 'react-native';
+//import {Image} from 'expo-image';
 import { TextInput } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
@@ -37,7 +38,7 @@ const SearchBarComponent = () => {
     return(
         <View>
             <View style = {searchBar.bar}>
-            <Image style={searchBar.PictureFrame} contentFit="cover" source={require("../../assets/searchIcon.png")}/>
+            <Image style={searchBar.PictureFrame} source={require("../../assets/searchIcon.png")}/>
                 <TextInput style = {searchBar.lightBar}>    </TextInput>
             </View>
         </View>
