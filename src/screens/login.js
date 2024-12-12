@@ -1,79 +1,77 @@
 import React, { useState } from "react";
-import { View, ScrollView, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView } from "react-native";
+import { View,KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles"; 
-import { cadastroRedirect, feedRedirect } from '../functions/functions'; 
+import { Entrada, divider, explanation, button, NativeScreen } from "../styles/styles";
+import { cadastroRedirect, feedRedirect } from '../functions/functions';
+import api from '../services/api'; // Corrigido para uma importação padrão
+
+
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isEmailFocused, setEmailFocused] = useState(false);
-  const [isPasswordFocused, setPasswordFocused] = useState(false);
 
-  const handleLogin = () => {
-    fetch('http://localhost:3000/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.token) {
-          Alert.alert('Login realizado com sucesso!');
-          feedRedirect(navigation);  // Supondo que `feedRedirect` é uma função que redireciona para a página Feed
-        } else {
-          Alert.alert('Erro', data.error);
-        }
-      })
-      .catch((error) => {
-        Alert.alert('Erro', 'Não foi possível realizar o login.');
-        console.error(error);
+  const handleSubmit = async () => {
+    try {
+      const response = await api.post('/login', {
+        email,
+        password
       });
-  };
+
+      const { _id } = response.data;
+      console.log(_id);
+      console.log('Resposta do servidor:', response);
+
+      // A resposta da API pode estar em response.data
+      console.log('Dados da resposta:', response.data);
+      
+        if (response.status === 201 || response.status === 200) {
+          const { data } = response;
+          Alert.alert('Sucesso', data.message);
+          // Armazene o token ou faça outra ação conforme necessário
+          await AsyncStorage.setItem('token', data.token);
+          navigation.navigate('Feed');
+      } else {
+        Alert.alert('Erro', 'Erro ao efetuar login');
+      }
+    }  catch (error) {
+      console.error('Erro ao fazer login:', error);
+      Alert.alert('Erro', 'Erro ao efetuar login');
+    }
+  }
 
   return (
     <SafeAreaView style={NativeScreen.safeAreaView}>
       <ScrollView style={NativeScreen.scrollView}>
-          <KeyboardAvoidingView>
           <View style={NativeScreen.View}></View>
-          <Text></Text>
-          <Text></Text>
-          <Text></Text>
           <Text style={explanation.bigExplanation}>{"WAY"}</Text>
-          <Text></Text>
-          <Text></Text>
-          <Text></Text>
           <Text style={explanation.bigExplanation}>{"LOGIN"}</Text>
           <Text style={explanation.littleEx}>{"Entre usando seu email e senha!"}</Text>
 
           <View style={Entrada.inputBox}>
             <TextInput
               style={Entrada.inputText}
-              placeholder={isEmailFocused ? '' : 'exemplo@email.com'}
+              placeholder={"Seu e-mail"}
               value={email}
-              onFocus={() => setEmailFocused(true)}
-              onBlur={() => setEmailFocused(false)}
-              onChangeText={setEmail}
+              onChangeText={text => setEmail(text)}
               keyboardType="email-address"
               autoCapitalize="none"
+              autoCorrect={false}
             />
           </View>
 
           <View style={Entrada.inputBox}>
             <TextInput
               style={Entrada.inputText}
-              placeholder={isPasswordFocused ? '' : 'senha'}
+              placeholder={"senha"}
               value={password}
-              onFocus={() => setPasswordFocused(true)}
-              onBlur={() => setPasswordFocused(false)}
-              onChangeText={setPassword}
+              onChangeText={text => setPassword(text)}
               secureTextEntry
             />
           </View>
           
-          <TouchableOpacity onPress={handleLogin} style={button.darkButton}>
+          <TouchableOpacity onPress={handleSubmit} style={button.darkButton}>
             <Text style={button.text}>{"ENTRAR"}</Text>
           </TouchableOpacity>
 
@@ -87,26 +85,26 @@ const Login = ({ navigation }) => {
             <Text style={button.clearText}>{"não tenho cadastro!"}</Text>
           </TouchableOpacity>
 
-          <Text
-            style={{
-              fontSize: 12,
-              marginBottom: 202,
-              marginHorizontal: 32,
-              width: 311,
-            }}
-          >
-            {"By clicking continue, you agree to our Terms of Service and Privacy Policy"}
-          </Text>
-          <View
-            style={{
-              backgroundColor: '#000000',
-              borderRadius: 100,
-              marginHorizontal: 120,
-            }}
-          ></View>
-        </KeyboardAvoidingView>
+        <Text
+          style={{
+            fontSize: 12,
+            marginBottom: 202,
+            marginHorizontal: 32,
+            width: 311,
+          }}
+        >
+          {"Ao continuar, você concorda com nossos Termos de Serviço e Política de Privacidade"}
+        </Text>
+        <View
+          style={{
+            backgroundColor: '#000000',
+            borderRadius: 100,
+            marginHorizontal: 120,
+          }}
+        ></View>
       </ScrollView>
     </SafeAreaView>
+    
   );
 };
 

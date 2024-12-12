@@ -23,7 +23,6 @@ export default function App() {
         <Stack.Screen name = "Feed" component={Feed}/>
         <Stack.Screen name = "Missing" component={Missing}/>
         <Stack.Screen name = "Cadastro" component={Cadastro}/>
-        <Stack.Screen name = "BO" component={BO}/>
         <Stack.Screen name = "Chat" component={Chat}/>
         
       </Stack.Navigator>

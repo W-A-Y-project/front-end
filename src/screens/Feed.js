@@ -1,120 +1,111 @@
-import React, { useState } from "react";
-import { View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, ScrollView, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Entrada, divider, explanation, button, NativeScreen, Responsive } from "../styles/styles"; 
-import { cadastroRedirect, verifyLogin } from '../functions/functions'; 
 import Post from "../components/Post";
-import PointComponent from "../components/Point";
-import Missing from "./Missing";
 import SearchBarComponent from "../components/searchBar";
 import TabBarComponent from "../components/TabBar";
+import api from '../services/api';
 
-const Feed = ({ navigation }) => {
-  const postData = [ 
-  {
-    id:1,
-    name: "Maria Mary Marie",
-    sexo: "feminino",
-    age: 22,
-    lastView: "Shopping das marias",
-    dateMiss: "10/10/1010",
-    address: "rua marymary 22, Campinas/SP",
-    skin: "branca",
-    eyesColor: "castanho escuro",
-    characteristics: "tatuagem de palhaço nas duas pernas",
-    hair: "longo, azul marinho",
-    illness: "não",
-    vehicle: "moto vermelha: abc-1234",
-    clothes: "vestido rosa, blusa de frio azul claro com gorro de trico preto, crocs pink"
-  },
+const Feed = ({ navigation, route }) => {
+  const [postData, setPostData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  {
-    id: 2,
-    name: "João John",
-    sexo: "masculino",
-    age: 86,
-    lastView: "Casa de apoio a idosos",
-    dateMiss: "12/02/24",
-    address: "rua dos idosos preeguiçosos/SP",
-    skin: "branca",
-    eyesColor: "castanho escuro",
-    characteristics: "tatuagem de palhaço nas duas pernas",
-    hair: "longo, azul marinho",
-    illness: "não",
-    vehicle: "moto vermelha: abc-1234",
-    clothes: "vestido rosa, blusa de frio azul claro com gorro de trico preto, crocs pink"
-  },
-  
-  {
-    id: 3,
-    name: "asdasdsdfasd",
-    sexo: "masculino",
-    age: 823,
-    lastView: "Casa de apoio a idosos",
-    dateMiss: "12/04/1345",
-    address: "rua dos idosos preeguiçosos/SP",
-    skin: "branca",
-    eyesColor: "castanho escuro",
-    characteristics: "tatuagem de palhaço nas duas pernas",
-    hair: "longo, azul marinho",
-    illness: "não",
-    vehicle: "moto vermelha: abc-1234",
-    clothes: "vestido rosa, blusa de frio azul claro com gorro de trico preto, crocs pink"
-  },
-  
-  {
-    id: 4,
-    name: "ladorica",
-    sexo: "feminino",
-    age: 11,
-    lastView: "Casa de apoio a kids",
-    dateMiss: "12/02/24",
-    address: "rua das crianças perdidas/SP",
-    skin: "branca",
-    eyesColor: "castanho escuro",
-    characteristics: "tatuagem de palhaço nas duas pernas",
-    hair: "longo, azul marinho",
-    illness: "não",
-    vehicle: "moto vermelha: abc-1234",
-    clothes: "vestido rosa, blusa de frio azul claro com gorro de trico preto, crocs pink"
+  useEffect(() => {
+    // Verificar se há um novo post enviado pela rota anterior
+    if (route.params?.newPost) {
+      setPostData(currentPosts => [route.params.newPost, ...currentPosts]);
+    }
+
+    // Busca os posts do back-end ao carregar o feed
+    const fetchPosts = async () => {
+      try {
+        setIsLoading(true);
+
+        const response = await api.get('/disappeared');
+        
+        // Processar os dados recebidos
+        const processedPosts = response.data.map(post => {
+          const isBase64 = post.photoUri && post.photoUri.startsWith('data:image');
+          const isAbsoluteUrl = post.photoUri && post.photoUri.startsWith('http');
+        
+          return {
+            ...post,
+            photoUri: isAbsoluteUrl 
+              ? post.photoUri 
+              : isBase64
+              ? post.photoUri 
+              : post.photoUri 
+              ? `http://192.168.0.101:3000/uploads/${post.photoUri}`
+              : null, // Define null se não houver `photoUri`
+          };
+        });
+        
+      
+        setPostData(processedPosts);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Erro ao buscar posts:', error);
+        setError('Não foi possível carregar os posts');
+        setIsLoading(false);
+        
+        // Opcional: mostrar um alerta de erro
+        Alert.alert('Erro', 'Não foi possível carregar os posts');
+      }
+    };
+
+    fetchPosts();
+  }, [route.params?.newPost]); // Observa alterações em "newPost" no route params
+
+  // Renderização condicional
+  /*
+  if (isLoading) {
+    return (
+      <SafeAreaView>
+        <Text>Carregando posts...</Text>
+      </SafeAreaView>
+    );
   }
 
-]
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isEmailFocused, setEmailFocused] = useState(false);
-  const [isPasswordFocused, setPasswordFocused] = useState(false);
-
+  if (error) {
+    return (
+      <SafeAreaView>
+        <Text>{error}</Text>
+      </SafeAreaView>
+    );
+  }
+    */
 
   return (
-    <SafeAreaView style={[NativeScreen.safeAreaView]}>
-      <SearchBarComponent/>
-      <View style={[NativeScreen.View]}></View>
-      <ScrollView style={[NativeScreen.scrollView]}>
-        {postData.map((person)=>(
-          <Post
-          key={person.id}
-          name={person.name}
-          sexo={person.sexo}
-          age={person.age}
-          lastView={person.lastView}
-          dateMiss={person.dateMiss}
-          address={person.address}
-          skin={person.skin}
-          eyesColor={person.eyesColor}
-          characteristics={person.characteristics}
-          hair={person.hair}
-          illness={person.illness}
-          vehicle={person.vehicle}
-          clothes={person.clothes}/>
-        ))
-        }
+    <SafeAreaView>
+      <SearchBarComponent />
+      <ScrollView>
+        {postData.length > 0 ? (
+          postData.map((person) => (
+            <Post
+              key={person.id}
+              id={person.id}
+              name={person.name}
+              gender={person.gender}
+              age={person.age}
+              lastView={person.lastView}
+              dateMiss={person.dateMiss}
+              address={person.address}
+              skin={person.skin}
+              eyesColor={person.eyesColor}
+              characteristics={person.characteristics}
+              hair={person.hair}
+              illnessDescription={person.illnessDescription}
+              vehicleDescription={person.vehicleDescription}
+              clothes={person.clothes}
+              photoUri={person.photoUri}
+            />
+          ))
+        ) : (
+          <Text>Nenhum post encontrado</Text>
+        )}
       </ScrollView>
-      <TouchableOpacity onPress={navigation.navigate('Missing')}>
-      <TabBarComponent/>
-      </TouchableOpacity>
-        
+      <TabBarComponent />
     </SafeAreaView>
   );
 };
