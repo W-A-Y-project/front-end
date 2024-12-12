@@ -44,6 +44,7 @@ const Missing = ({navigation}) => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      
     });
 
     if (!result.canceled) {
@@ -87,9 +88,16 @@ const Missing = ({navigation}) => {
   };
 
   const handleSubmit = async () => {
+    console.log('Photo:', photo);
+    console.log('BO Document:', boDocument);
 
     const formattedBirthDate = formatDate(birthDate);
     const formattedLastSeenDate = formatDate(lastSeenDate);
+
+    if (!formattedBirthDate || !formattedLastSeenDate) {
+      Alert.alert('Erro', 'Por favor, preencha corretamente as datas');
+      return;
+    }
 
     const formData = new FormData();
 
@@ -117,21 +125,25 @@ const Missing = ({navigation}) => {
     formData.append('Vehicle', vehicle ? '1' : '0');
     if (vehicle) formData.append('VehicleDescription', vehicleDescription);
     
-    // Photo upload
-    const photoFile = {
+    let photoFile = null
+    if (photo && photo.uri) {
+      photoFile = {
       uri: photo.uri,
       type: 'image/jpeg',
       name: `missing_person_photo_${Date.now()}.jpg`
-    };
+    }
     formData.append('photo', photoFile);
+  }
   
-    // BO Document upload
-    const boDocumentFile = {
-      uri: boDocument.uri,
-      type: 'application/pdf',
-      name: `missing_person_bo_${Date.now()}.pdf`
+    let boDocumentFile = null
+    if(boDocument && boDocument.uri) {
+      boDocumentFile = {
+        uri: boDocument.uri,
+        type: 'application/pdf',
+        name: `missing_person_bo_${Date.now()}.pdf`
     };
     formData.append('boDocument', boDocumentFile);
+  }
 
     try {
       const response = await api.post('/create-disappeared', formData, {
@@ -143,7 +155,24 @@ const Missing = ({navigation}) => {
 
       if (response.status === 201) {
         Alert.alert('Sucesso', 'Desaparecido cadastrado com sucesso');
-        navigation.navigate('Feed');
+
+        const newPost = {
+          name: fullName,
+          gender: gender,
+          age: calculateAge(birthDate),
+          lastView: lastSeenLocation,
+          dateMiss: formatDate(lastSeenDate),
+          address: `${city} - ${state}, ${postalCode}`,
+          skin: skinColor,
+          eyesColor: eyeColor,
+          characteristics: characteristics,
+          hair: hair,
+          illnessDescription: illnessDescription,
+          vehicleDescription: vehicleDescription,
+          clothes: clothingWorn,
+          photoUri: response.data.disappeared.photo.uri,  
+      };
+        navigation.navigate('Feed', {newPost});
       } else {
         Alert.alert('Erro', 'Não foi possível cadastrar o desaparecido');
       }
@@ -152,14 +181,31 @@ const Missing = ({navigation}) => {
       Alert.alert('Erro', `Ocorreu um erro: ${error.response ? error.response.data.message : error.message}`);
     }
   };
-
   const formatDate = (date) => {
-    // Format the date to DD/MM/YYYY
     const dateParts = date.split('/');
     if (dateParts.length === 3) {
-      return `${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`;
+      const [day, month, year] = dateParts.map(Number);
+      if (day > 0 && day <= 31 && month > 0 && month <= 12 && year > 1900) {
+        return `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${year}`;
+      }
     }
-    return date;  // Return the original date if it's already in the correct format
+    return null; // Inválido
+  };
+  
+  
+  const calculateAge = (birthDate) => {
+    const today = new Date();
+    const birthDateObj = new Date(birthDate);
+  
+    let age = today.getFullYear() - birthDateObj.getFullYear();
+    const monthDifference = today.getMonth() - birthDateObj.getMonth();
+  
+    // Ajuste a idade se o aniversário ainda não aconteceu neste ano
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDateObj.getDate())) {
+      age--;
+    }
+  
+    return age;
   };
 
   return (
@@ -309,7 +355,7 @@ const Missing = ({navigation}) => {
             value={hair}
             onChangeText={setHair}
           />
-           <CheckboxComponent
+          <CheckboxComponent
         label="Doença?"
         isChecked={illness}
         toggleCheckbox={() => setIllness(!illness)}
@@ -354,7 +400,8 @@ const Missing = ({navigation}) => {
     
     {/* Botões para visualizar e remover o BO */}
     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-      <TouchableOpacity
+      
+   {/*   <TouchableOpacity
         onPress={() => {
           // Função para visualizar o documento (se for PDF, etc.)
           Alert.alert('Visualização', 'Funcionalidade de visualização de PDF a ser implementada');
@@ -363,6 +410,7 @@ const Missing = ({navigation}) => {
       >
         <Text style={button.text}>Visualizar</Text>
       </TouchableOpacity>
+      */}
       
       <TouchableOpacity
         onPress={() => setBoDocument(null)} // Limpa o estado do boDocument
@@ -381,10 +429,10 @@ const Missing = ({navigation}) => {
             button.darkButton, 
             { 
               marginTop: 20, 
-              opacity: (!CPF || !fullName || !birthDate || !gender || !lastSeenLocation || !lastSeenDate || !city || !state || !postalCode || !skinColor || !eyeColor || !hair || !photo) ? 0.5 : 1 
+              opacity: (!CPF || !fullName || !birthDate || !gender || !lastSeenLocation || !lastSeenDate || !city || !state || !postalCode || !skinColor || !eyeColor || !hair || !photo || !boDocument) ? 0.5 : 1 
             }
           ]}
-          disabled={!CPF || !fullName || !birthDate || !gender || !lastSeenLocation || !lastSeenDate || !city || !state || !postalCode || !skinColor || !eyeColor || !hair || !photo}
+          disabled={!CPF || !fullName || !birthDate || !gender || !lastSeenLocation || !lastSeenDate || !city || !state || !postalCode || !skinColor || !eyeColor || !hair || !photo || !boDocument}
         >
           <Text style={button.text}>Cadastrar</Text>
         </TouchableOpacity>

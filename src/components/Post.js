@@ -1,128 +1,101 @@
-import { useState, useRef } from "react";
-
-import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Animated } from "react-native";
-import { Image } from "expo-image";
-import EyesComponent from '../components/Eyes';
-import PointComponent from "./Point";
+import { useState, useRef, useEffect } from "react";
+import { Text, View, Image,Linking, StyleSheet, Dimensions, TouchableOpacity, Animated, Alert, ActivityIndicator } from "react-native";
 
 const { width, height } = Dimensions.get('window');
 
 const ComponentPost = StyleSheet.create({
   Color: {
     colorGhostwhite: "#f8f8ff",
-    backgroundColor: "#363851"
+    backgroundColor: "#363851",
   },
 
-  Container: {//esse é o container que fica ao lado...
+  Container: {
     alignItems: 'center',
     padding: 10,
     justifyContent: 'space-evenly',
-    width: width * 1.4,
-  },
-  
-  ExpandedContainer:{//esse é o container expandido
-    left: 10,
     width: width * 0.97,
-    justifyContent: 'space-evenly',
-    top: 270,
-    position: "absolute",
   },
 
-  ExpandedText:{
-    textAlign: 'left',
-    fontSize: 20,
+  ExpandedContainer: {
+    padding: 10,
     width: width * 0.95,
-    color: "#f8f8ff",
-    marginBottom: 10,
-    justifyContent: "space-around",
   },
 
   nameText: {
     fontSize: 20,
     color: "#f8f8ff",
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: 5,
   },
 
-  sexo: {
+  ageText: {
     fontSize: 18,
     textAlign: 'center',
     color: "#f8f8ff",
     marginBottom: 10,
   },
 
-  Age: {
-    fontSize: 20,
-    textAlign: 'center',
+  ExpandedText: {
+    fontSize: 16,
     color: "#f8f8ff",
+    marginBottom: 5,
+  },
+
+  postImage: {
+    width: width * 0.6,  // Increased width
+    height: 300,  // Increased height
+    borderRadius: 10,
     marginBottom: 10,
+    alignSelf: 'center',
   },
-
-  LastView: {
-    fontSize: 14,
-    textAlign: 'center',
-    width: 160,
-    color: "#f8f8ff",
-    marginBottom: 10,
-  },
-
-  dateMiss: {
-    textAlign: 'center',
-    fontSize: 15,
-    color: "#f8f8ff",
-    marginBottom: 10,
-  },
-
-  AddressTextStyle: {
-    textAlign: 'center',
-    width: 150,
-    color: "#f8f8ff",
-    fontSize: 14,
-    marginBottom: 10,
-  },
-
-  frameChild: {
-    left: 10,
-    width: width * 0.45,
-    height: 238,
-    top: 7,
-    position: "absolute",
-  },
-
-  postActionsChild: {
-    width: 35,
-    height: 35,
-    overflow: "hidden",
-  },
-
-  postActions: {
-    top: 219,
-    left: 65,
-    width: 70,
-    flexDirection: "row",
-    alignItems: "center",
-    position: "absolute",
-    backgroundColor: "#2f4f4f",
-  },
-
-  PostComponent: {//esse é o componente do post completo
+  
+  PostComponent: {
     borderRadius: 23,
-    width: width * 0.97,
-    height: 250,
+    width: width * 1,
     overflow: "hidden",
     backgroundColor: "#363851",
-    marginHorizontal: 5,
+    marginBottom: 10,
+    alignSelf: 'center',
   },
 
+  loadingIndicator: {
+    width: width * 0.8, 
+    height: 300, 
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    backgroundColor: '#ddd', // Gray background while loading
+  }
 });
 
-const Post = ({name, sexo, age, lastView, dateMiss, address, skin, eyesColor, characteristics, hair, illness, vehicle, clothes}) => {
-  const [expanded, setExpanded] = useState(false); // Estado para controlar expansão
-  const animation = useRef(new Animated.Value(0)).current; // Valor animado para a expansão
+const Post = ({
+  name,
+  gender,
+  age,
+  lastView,
+  dateMiss,
+  address,
+  skin,
+  eyesColor,
+  characteristics,
+  hair,
+  illnessDescription,
+  vehicleDescription,
+  clothes,
+  photoUri, // Use this as the prop for the image URI
+}) => {
+  const [expanded, setExpanded] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [imageError, setImageError] = useState(null);
+  const animation = useRef(new Animated.Value(0)).current;
 
-  
+  useEffect(() => {
+    console.log('Post Component - PhotoURI:', photoUri);
+  }, [photoUri]);
+
+
+
   const handlePress = () => {
-    console.log('Post pressed'); // Confirma que a função é chamada
     const toValue = expanded ? 0 : 1;
     setExpanded(!expanded);
     Animated.timing(animation, {
@@ -132,69 +105,89 @@ const Post = ({name, sexo, age, lastView, dateMiss, address, skin, eyesColor, ch
     }).start();
   };
 
+  const handleImageError = (error) => {
+    console.log('Image load error - Full Error:', JSON.stringify(error.nativeEvent));
+    setImageError(error.nativeEvent.error);
+    setLoading(false);
 
+    Alert.alert('Erro de Imagem', `Detalhes: ${JSON.stringify(error.nativeEvent)}`, [
+      { text: 'OK', onPress: () => console.log('Image Error Alert Dismissed') }
+    ]);
+  };
 
+  const handleImageLoad = () => {
+    setLoading(false);
+    setImageError(null);
+  };
 
-
-  const interpolatedWidth = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [width * 0.97, width-10], // Expande para a largura total
-  });
-
+  const handleAddressPress = () => {
+    const encodedAddress = encodeURIComponent(`${address}`);
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+    Linking.openURL(googleMapsUrl);
+  };
+  
   const interpolatedHeight = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [250, height-100], // Expande para a altura total
+    outputRange: [250, height * 0.8],
   });
-
-
-
-
-
-
+  
   return (
-    <TouchableOpacity onPress={handlePress} activeOpacity={1}>
+    <TouchableOpacity onPress={handlePress} activeOpacity={0.9}>
       <Animated.View
-        style={[
-          ComponentPost.PostComponent,
-          {
-            width: interpolatedWidth,
-            height: interpolatedHeight,
-            marginBottom: 5,  // Espaçamento entre os posts
-          },
-        ]}
-      >
-        <View style={ComponentPost.Container}>
-          <Text style={ComponentPost.nameText} numberOfLines={1} ellipsizeMode='tail'>{name}</Text>
-          <Text style={ComponentPost.sexo} numberOfLines={2}>{sexo}</Text>
-          <Text style={ComponentPost.Age}>{age} anos</Text>
-          <Text style={ComponentPost.LastView} numberOfLines={2} ellipsizeMode="tail">Visto por último em: {lastView}</Text>
-          <Text style={ComponentPost.dateMiss}>{dateMiss}</Text>
-          <Text style={ComponentPost.AddressTextStyle} numberOfLines={2} ellipsizeMode="tail">{address}</Text>
+        style={[ComponentPost.PostComponent, { height: interpolatedHeight }]}>
+        
+        {photoUri ? (  
+          <View style={{ alignItems: 'center' }}>
+            <Image
+              source={{ 
+                uri: photoUri,
+                // Add cache control to force reload
+                cache: 'reload'
+              }} 
+              style={{ 
+                width: 200, 
+                height: 200, 
+                marginVertical: 10,
+                borderRadius: 10 
+              }}
+              resizeMode="cover"
+              onError={handleImageError}
+              onLoad={handleImageLoad}
+            />
+            {imageError && (
+              <Text style={{ color: 'red', marginTop: 10 }}>
+                Erro ao carregar imagem: {imageError}
+              </Text>
+            )}
+          </View>
+        ) : (
+          <View style={ComponentPost.loadingIndicator}>
+            <Text>Sem imagem disponível</Text>
+          </View>
+        )}
 
-          {expanded &&(
-            <View style={ComponentPost.ExpandedContainer}>
-              <Text style={ComponentPost.ExpandedText} numberOfLines={2} ellipsizeMode="tail">Cor da pele: {skin}</Text>
-              <Text style={ComponentPost.ExpandedText} numberOfLines={2} ellipsizeMode="tail">cor dos olhos: {eyesColor}</Text>
-              <Text style={ComponentPost.ExpandedText} numberOfLines={3} ellipsizeMode="tail">características: {characteristics}</Text>
-              <Text style={ComponentPost.ExpandedText} numberOfLines={2} ellipsizeMode="tail">tipo e cor de cabelo: {hair}</Text>
-              <Text style={ComponentPost.ExpandedText} numberOfLines={3} ellipsizeMode="tail">Deficiência: {illness}</Text>
-              <Text style={ComponentPost.ExpandedText} numberOfLines={2} ellipsizeMode="tail">Veículo: {vehicle}</Text>
-              <Text style={ComponentPost.ExpandedText} numberOfLines={5} ellipsizeMode="tail">Roupas que estava vestindo: {clothes}</Text>
-            </View>//mapa futuramente aqui skksksks
-              
-          )}
-        </View>
-        <Image
-          style={ComponentPost.frameChild}
-          contentFit="cover"
-          source={require("../../assets/picMissing.png")}
-        />
+        <Text style={ComponentPost.nameText}>{name}</Text>
+        <Text style={ComponentPost.ageText}>{age} anos</Text>
 
-        <View style={ComponentPost.postActions}>
-          <EyesComponent/>
-          <PointComponent/>
-        </View>
-      
+        {expanded && (
+          <View style={ComponentPost.ExpandedContainer}>
+            <Text style={ComponentPost.ExpandedText}>Gênero: {gender}</Text>
+            <Text style={ComponentPost.ExpandedText}>Última vez visto: {lastView}</Text>
+            <Text style={ComponentPost.ExpandedText}>Data de desaparecimento: {dateMiss}</Text>
+            <TouchableOpacity onPress={handleAddressPress}>
+              <Text style={[ComponentPost.ExpandedText, ComponentPost.addressText]}>
+                Endereço: {address}
+              </Text>
+            </TouchableOpacity>
+            <Text style={ComponentPost.ExpandedText}>Cor da pele: {skin}</Text>
+            <Text style={ComponentPost.ExpandedText}>Cor dos olhos: {eyesColor}</Text>
+            <Text style={ComponentPost.ExpandedText}>Características: {characteristics}</Text>
+            <Text style={ComponentPost.ExpandedText}>Cabelo: {hair}</Text>
+            <Text style={ComponentPost.ExpandedText}>Doenças: {illnessDescription}</Text>
+            <Text style={ComponentPost.ExpandedText}>Veículo: {vehicleDescription}</Text>
+            <Text style={ComponentPost.ExpandedText}>Roupas: {clothes}</Text>
+          </View>
+        )}
       </Animated.View>
     </TouchableOpacity>
   );
