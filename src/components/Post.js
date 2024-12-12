@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { Text, View, Image,Linking, StyleSheet, Dimensions, TouchableOpacity, Animated, Alert, ActivityIndicator } from "react-native";
-import { useState, useRef } from "react";
 
 import EyesComponent from '../components/Eyes';
 import PointComponent from "./Point";
@@ -145,7 +144,6 @@ const Post = ({
             <Image
               source={{ 
                 uri: photoUri,
-                // Add cache control to force reload
                 cache: 'reload'
               }} 
               style={{ 
@@ -155,14 +153,12 @@ const Post = ({
                 borderRadius: 10 
               }}
               resizeMode="cover"
-              onError={handleImageError}
-              onLoad={handleImageLoad}
+              onError={(e) => {
+                console.error('Image load error for URI:', photoUri);
+                console.error('Full error:', e.nativeEvent);
+              }}
+              onLoad={() => console.log('Image loaded successfully:', photoUri)}
             />
-            {imageError && (
-              <Text style={{ color: 'red', marginTop: 10 }}>
-                Erro ao carregar imagem: {imageError}
-              </Text>
-            )}
           </View>
         ) : (
           <View style={ComponentPost.loadingIndicator}>

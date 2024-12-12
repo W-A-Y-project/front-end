@@ -1,46 +1,46 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Correto
-import PlusComponent from './Plus'; // Certifique-se de que este componente está funcionando corretamente
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
 
 const { width } = Dimensions.get('window');
 
-const tabBar = StyleSheet.create({
+const styles = StyleSheet.create({
   tabs: {
     position: 'absolute',
-    height: 50,
     bottom: 0,
     width: width,
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     backgroundColor: '#E0E0E0',
-    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderColor: '#C0C0C0',
   },
-  buttonContainer: {
-    position: 'absolute',
-    bottom: 0,
+  button: {
+    backgroundColor: '#707070',
+    borderRadius: 50,
+    padding: 15,
   },
 });
 
 const TabBarComponent = () => {
-  const [clicked, setClicked] = useState(false);
-  const navigation = useNavigation(); // Certifique-se de usar o hook aqui
+  const navigation = useNavigation();
 
   return (
-    <View style={tabBar.tabs}>
+    <View style={styles.tabs}>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <Icon name="home" size={24} color="#000" />
+      </TouchableOpacity>
       <TouchableOpacity
-        style={{
-        position: 'absolute',
-        bottom: 1,
-        right: 175,
-        backgroundColor: '#707070',
-        borderRadius: 50,
-        padding: 15,
-      }}
-      onPress={() => navigation.navigate('Missing')}
-    >
-      <Icon name="add" size={15} color="white" />
+        style={styles.button}
+        onPress={() => navigation.navigate('Missing')}
+      >
+        <Icon name="add" size={24} color="white" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+        <Icon name="person" size={24} color="#000" />
       </TouchableOpacity>
     </View>
   );

@@ -1,10 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, Text, Alert } from "react-native";
+import { View, ScrollView, style, Dimensions, StyleSheet, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Post from "../components/Post";
 import SearchBarComponent from "../components/searchBar";
 import TabBarComponent from "../components/TabBar";
 import api from '../services/api';
+
+const { height } = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  searchBar: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    backgroundColor: '#FFFFFF', // Cor de fundo da SearchBar
+  },
+  scrollView: {
+    flexGrow: 1,
+    paddingTop: 70, // Espaço para a SearchBar
+    paddingBottom: 70, // Espaço para a TabBar
+  },
+  tabBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    backgroundColor: '#FFFFFF',
+  },
+});
 
 const Feed = ({ navigation, route }) => {
   const [postData, setPostData] = useState([]);
@@ -20,32 +50,24 @@ const Feed = ({ navigation, route }) => {
     // Busca os posts do back-end ao carregar o feed
     const fetchPosts = async () => {
       try {
-        setIsLoading(true);
-
         const response = await api.get('/disappeared');
+        console.log('Raw response:', response.data); // Log the raw data
         
-        // Processar os dados recebidos
         const processedPosts = response.data.map(post => {
-          const isBase64 = post.photoUri && post.photoUri.startsWith('data:image');
-          const isAbsoluteUrl = post.photoUri && post.photoUri.startsWith('http');
-        
+          console.log('Individual post:', post); // Log each post
           return {
             ...post,
-            photoUri: isAbsoluteUrl 
+            photoUri: post.photoUri 
               ? post.photoUri 
-              : isBase64
-              ? post.photoUri 
-              : post.photoUri 
-              ? `http://192.168.0.101:3000/uploads/${post.photoUri}`
-              : null, // Define null se não houver `photoUri`
+              : null,
           };
         });
         
-      
+        console.log('Processed posts:', processedPosts);
         setPostData(processedPosts);
         setIsLoading(false);
       } catch (error) {
-        console.error('Erro ao buscar posts:', error);
+        console.error('Detailed error:', error.response ? error.response.data : error);
         setError('Não foi possível carregar os posts');
         setIsLoading(false);
         
@@ -57,34 +79,17 @@ const Feed = ({ navigation, route }) => {
     fetchPosts();
   }, [route.params?.newPost]); // Observa alterações em "newPost" no route params
 
-  // Renderização condicional
-  /*
-  if (isLoading) {
-    return (
-      <SafeAreaView>
-        <Text>Carregando posts...</Text>
-      </SafeAreaView>
-    );
-  }
-
-  if (error) {
-    return (
-      <SafeAreaView>
-        <Text>{error}</Text>
-      </SafeAreaView>
-    );
-  }
-    */
-
   return (
-    <SafeAreaView>
-      <SearchBarComponent />
-      <ScrollView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.searchBar}>
+        <SearchBarComponent />
+      </View>
+      <ScrollView contentContainerStyle={styles.scrollView}>
         {postData.length > 0 ? (
           postData.map((person) => (
             <Post
-              key={person.id}
-              id={person.id}
+              key={person.Cpf} // Usando CPF como chave única
+              id={person.Cpf}
               name={person.name}
               gender={person.gender}
               age={person.age}
@@ -105,7 +110,9 @@ const Feed = ({ navigation, route }) => {
           <Text>Nenhum post encontrado</Text>
         )}
       </ScrollView>
-      <TabBarComponent />
+      <View style={styles.tabBar}>
+        <TabBarComponent />
+      </View>
     </SafeAreaView>
   );
 };
